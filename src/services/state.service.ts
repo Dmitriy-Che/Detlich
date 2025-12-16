@@ -1,4 +1,3 @@
-
 import { Injectable, signal, WritableSignal, effect } from '@angular/core';
 
 export type Screen = 'landing' | 'quiz-step-1' | 'loading-analysis' | 'result-basic' | 'horoscope-upsell' | 'loading-horoscope' | 'result-horoscope' | 'monetization';
@@ -30,6 +29,11 @@ export interface CelebrityTeaser {
   shortDescription: string;
 }
 
+export interface InteriorTeaser {
+  description: string;
+  previewImages: string[];
+}
+
 export interface AnalysisResult {
   archetype: string;
   description: string;
@@ -37,6 +41,7 @@ export interface AnalysisResult {
   previewImages: string[];
   crystalTeaser: CrystalTeaser[];
   celebrityTeaser: CelebrityTeaser[];
+  interiorTeaser: InteriorTeaser;
 }
 
 export interface HoroscopeResult {
@@ -59,11 +64,17 @@ export interface CelebrityMatch {
   photoUrl: string;
 }
 
+export interface InteriorDesign {
+    recommendations: string[];
+    exampleImages: string[];
+}
+
 export interface PaidContent {
   fullReport?: string;
   paidPortrait?: string;
   crystals?: CrystalInfo[];
   celebrities?: CelebrityMatch[];
+  interiorDesign?: InteriorDesign;
 }
 
 

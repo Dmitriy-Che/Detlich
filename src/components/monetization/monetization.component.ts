@@ -1,4 +1,3 @@
-
 import { Component, ChangeDetectionStrategy, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -60,7 +59,8 @@ export class MonetizationComponent implements OnInit {
             fullReport: "Это ваш полный отчет. Здесь будет детальный разбор вашего архетипа, расширенные рекомендации по стилю, нумерологический анализ и многое другое, что поможет вам на пути самопознания. Каждая деталь важна, и мы раскрываем их все для вас.",
             paidPortrait: portrait,
             crystals: premiumData.crystals,
-            celebrities: premiumData.celebrities
+            celebrities: premiumData.celebrities,
+            interiorDesign: premiumData.interiorDesign
         });
     }
     this.isLoadingPaidContent.set(false);

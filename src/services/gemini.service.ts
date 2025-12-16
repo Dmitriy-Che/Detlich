@@ -1,7 +1,6 @@
-
 import { Injectable } from '@angular/core';
 import { GoogleGenAI, GenerateContentResponse, Type } from '@google/genai';
-import { AnalysisResult, HoroscopeResult, QuizData, PaidContent, CrystalInfo, CelebrityMatch } from './state.service';
+import { AnalysisResult, HoroscopeResult, QuizData, PaidContent, CrystalInfo, CelebrityMatch, InteriorDesign } from './state.service';
 
 // It is crucial that the API key is handled securely and not exposed in client-side code.
 // The `process.env.API_KEY` is a placeholder for an environment variable
@@ -49,6 +48,7 @@ export class GeminiService {
       - recommendations: ${recommendationsPrompt}
       - crystalTeaser: Порекомендуй 1-2 подходящих кристалла с очень коротким описанием (2-4 слова).
       - celebrityTeaser: Назови 1 знаменитость, чья энергия или стиль похожи на этого человека, с очень коротким пояснением.
+      - interiorTeaser: Дай очень краткое (1-2 предложения) описание гармоничного интерьера для этого типажа. Упомяни ключевые цвета и материалы.
       `
     };
 
@@ -65,7 +65,8 @@ export class GeminiService {
                     description: { type: Type.STRING },
                     recommendations: { type: Type.ARRAY, items: { type: Type.STRING } },
                     crystalTeaser: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { name: { type: Type.STRING }, shortDescription: { type: Type.STRING } } } },
-                    celebrityTeaser: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { name: { type: Type.STRING }, shortDescription: { type: Type.STRING } } } }
+                    celebrityTeaser: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { name: { type: Type.STRING }, shortDescription: { type: Type.STRING } } } },
+                    interiorTeaser: { type: Type.STRING }
                 }
             }
         }
@@ -77,8 +78,22 @@ export class GeminiService {
         this.generateOutfitImage(jsonResponse.archetype, quizData.gender, 'low'),
         this.generateOutfitImage(`${jsonResponse.archetype} style, another variation`, quizData.gender, 'low'),
       ]);
+      
+      const archetypeSlug = jsonResponse.archetype.replace(/\s+/g, '_').toLowerCase();
 
-      return { ...jsonResponse, previewImages };
+      const result: AnalysisResult = { 
+        ...jsonResponse, 
+        previewImages,
+        interiorTeaser: {
+            description: jsonResponse.interiorTeaser, // String from Gemini
+            previewImages: [
+                `https://picsum.photos/seed/${archetypeSlug}_interior1/300/300`,
+                `https://picsum.photos/seed/${archetypeSlug}_interior2/300/300`
+            ]
+        }
+      };
+      
+      return result;
 
     } catch (error) {
       console.error('Error getting personality analysis:', error);
@@ -88,7 +103,11 @@ export class GeminiService {
         recommendations: ['Доверяйте своей интуиции.', 'Носите цвета, которые радуют вашу душу.'],
         previewImages: ['https://picsum.photos/300/400?random=1', 'https://picsum.photos/300/400?random=2'],
         crystalTeaser: [{ name: 'Лунный камень', shortDescription: 'интуиция и спокойствие' }],
-        celebrityTeaser: [{ name: 'загадочная звезда', shortDescription: 'утонченная энергия' }]
+        celebrityTeaser: [{ name: 'загадочная звезда', shortDescription: 'утонченная энергия' }],
+        interiorTeaser: {
+            description: 'Создайте пространство, наполненное светом и натуральными материалами, чтобы отразить вашу внутреннюю гармонию.',
+            previewImages: ['https://picsum.photos/300/300?random=3', 'https://picsum.photos/300/300?random=4']
+        }
       };
     }
   }
@@ -116,10 +135,11 @@ export class GeminiService {
 
       const crystalsPromise = this.getPremiumCrystals(archetype, zodiacSign);
       const celebritiesPromise = this.getPremiumCelebrities(quizData, archetype);
+      const interiorPromise = this.getPremiumInterior(archetype, zodiacSign, quizData.gender);
 
-      const [crystals, celebrities] = await Promise.all([crystalsPromise, celebritiesPromise]);
+      const [crystals, celebrities, interiorDesign] = await Promise.all([crystalsPromise, celebritiesPromise, interiorPromise]);
 
-      return { crystals, celebrities };
+      return { crystals, celebrities, interiorDesign };
   }
 
   private async getPremiumCrystals(archetype: string, zodiacSign: string): Promise<CrystalInfo[]> {
@@ -202,6 +222,55 @@ export class GeminiService {
         return [
             { name: 'Моника Беллуччи', similarity: 85, reason: this.userFriendlyErrorMessage, photoUrl: 'https://picsum.photos/seed/monica_bellucci/400/400' }
         ];
+    }
+  }
+  
+  private async getPremiumInterior(archetype: string, zodiacSign: string, gender: string): Promise<InteriorDesign> {
+    const genderContext = gender === 'male' ? 'с более строгими, маскулинными акцентами' : 'с более мягкими, женственными акцентами';
+    const prompt = `
+      Создай подробные рекомендации по дизайну гармоничного домашнего интерьера для личности с типажом "${archetype}", знаком зодиака "${zodiacSign}", ${genderContext}.
+      Тон должен быть вдохновляющим и практичным.
+      Ответь в виде JSON объекта, который содержит массив 'recommendations' из 5-7 развернутых советов.
+      Советы должны охватывать: цветовую палитру, ключевые материалы, стиль мебели, освещение и идеи для декора.
+      Для каждого совета дай детальное описание.
+    `;
+  
+    try {
+        const response = await this.ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: prompt,
+            config: {
+                responseMimeType: "application/json",
+                responseSchema: {
+                    type: Type.OBJECT,
+                    properties: {
+                        recommendations: { type: Type.ARRAY, items: { type: Type.STRING } }
+                    }
+                }
+            }
+        });
+        const parsedResponse = JSON.parse(response.text);
+        const archetypeSlug = archetype.replace(/\s+/g, '_').toLowerCase();
+        const exampleImages = [
+            `https://picsum.photos/seed/${archetypeSlug}_livingroom/600/400`,
+            `https://picsum.photos/seed/${archetypeSlug}_bedroom/600/400`,
+            `https://picsum.photos/seed/${archetypeSlug}_kitchen/600/400`,
+            `https://picsum.photos/seed/${archetypeSlug}_details/600/400`
+        ];
+        return { recommendations: parsedResponse.recommendations, exampleImages };
+    } catch (error) {
+        console.error('Error getting premium interior design:', error);
+        return {
+            recommendations: [
+                this.userFriendlyErrorMessage,
+                'Используйте натуральные материалы, такие как дерево и лен, для создания уютной атмосферы.',
+                'Добавьте акценты вашего любимого цвета, чтобы пространство отражало вашу индивидуальность.'
+            ],
+            exampleImages: [
+                'https://picsum.photos/seed/error_livingroom/600/400',
+                'https://picsum.photos/seed/error_bedroom/600/400'
+            ]
+        };
     }
   }
 
