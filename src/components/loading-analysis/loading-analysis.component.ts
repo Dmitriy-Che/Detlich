@@ -39,7 +39,7 @@ export class LoadingAnalysisComponent implements OnInit, OnDestroy {
         40: "Сверяюсь со звёздной картой...",
         60: "Подбираю палитру стиля...",
         80: "Формирую персональные советы...",
-        95: "Почти готово! ✨"
+        95: "Почти готово! ✅"
     };
 
     this.intervalId = setInterval(() => {

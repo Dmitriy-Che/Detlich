@@ -13,26 +13,16 @@ import { GeminiService } from '../../services/gemini.service';
 })
 export class HoroscopeUpsellComponent {
   stateService = inject(StateService);
-  geminiService = inject(GeminiService);
 
   birthDate: string = '';
   errorMessage = signal<string | null>(null);
 
-  async getHoroscope() {
+  getHoroscope() {
     if (!this.birthDate) {
       this.errorMessage.set('Пожалуйста, введи свою дату рождения.');
       return;
     }
     this.errorMessage.set(null);
-    this.stateService.navigateTo('loading-horoscope');
-    
-    try {
-        const result = await this.geminiService.getHoroscope(this.birthDate);
-        this.stateService.setHoroscopeResult(result);
-    } catch (error) {
-        console.error("Failed to get horoscope", error);
-        // Fallback to monetization page if horoscope fails
-        this.stateService.navigateTo('monetization');
-    }
+    this.stateService.submitBirthDate(this.birthDate);
   }
 }

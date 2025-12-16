@@ -40,6 +40,7 @@ export class StateService {
   analysisResult: WritableSignal<AnalysisResult | null> = signal(null);
   horoscopeResult: WritableSignal<HoroscopeResult | null> = signal(null);
   userEmail: WritableSignal<string | null> = signal(null);
+  birthDate: WritableSignal<string | null> = signal(null);
 
   constructor() {
     this.loadStateFromLocalStorage();
@@ -85,6 +86,11 @@ export class StateService {
     this.navigateTo('loading-analysis');
   }
 
+  submitBirthDate(date: string) {
+    this.birthDate.set(date);
+    this.navigateTo('loading-horoscope');
+  }
+
   setAnalysisResult(result: AnalysisResult) {
     this.analysisResult.set(result);
     this.navigateTo('result-basic');
@@ -104,6 +110,7 @@ export class StateService {
     this.quizData.set(null);
     this.analysisResult.set(null);
     this.horoscopeResult.set(null);
+    this.birthDate.set(null);
     this.navigateTo('landing');
   }
 }

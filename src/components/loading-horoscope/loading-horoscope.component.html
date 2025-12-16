@@ -1,13 +1,12 @@
 
-<div class="flex flex-col items-center justify-center text-center p-6">
-   <div class="relative w-40 h-40">
-    <div class="absolute inset-0 rounded-full border-2 border-gold-accent animate-sparkle"></div>
-    <div class="absolute inset-4 rounded-full border-2 border-lavender animate-sparkle" style="animation-delay: 0.5s;"></div>
-    <div class="absolute inset-8 rounded-full border-2 border-powder-pink animate-sparkle" style="animation-delay: 1s;"></div>
-    <div class="absolute inset-0 flex items-center justify-center font-serif text-4xl text-gold-accent animate-pulse">
-      🔮
-    </div>
+<div class="flex flex-col items-center justify-center text-center p-6 w-full">
+  <div class="w-full bg-white/50 rounded-full h-4 mb-4 shadow-inner border border-lavender/50">
+    <div class="bg-gradient-to-r from-powder-pink via-lavender to-gold-accent h-4 rounded-full transition-all duration-300 ease-linear" [style.width.%]="progress()"></div>
   </div>
-  <h2 class="font-serif text-3xl font-bold mt-8">Читаю по звёздам...</h2>
-  <p class="font-sans text-md text-dark-purple/80 mt-2">Вселенная готовит для тебя особенное послание.</p>
+  <h2 class="font-serif text-3xl font-bold mt-4">
+    Читаю по звёздам... {{ Math.floor(progress()) }}%
+  </h2>
+  <p class="font-sans text-md text-dark-purple/80 mt-2 min-h-[2em]">
+    {{ progressText() }}
+  </p>
 </div>

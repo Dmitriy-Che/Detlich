@@ -90,12 +90,12 @@ export class GeminiService {
   }
 
   async generateOutfitImage(archetype: string, gender: string, quality: 'low' | 'high'): Promise<string> {
-    const genderString = gender === 'male' ? 'male' : 'female';
+    const genderString = gender === 'male' ? 'a man' : 'a woman';
     const qualityPrompt = quality === 'high' 
         ? 'ultra high detail, masterpiece, photorealistic' 
         : 'high resolution, positive vibe';
 
-    const prompt = `Realistic full-body portrait of a ${genderString} person in ${archetype}-inspired outfit, modern casual style, ${qualityPrompt}. The person should look confident and happy. Neutral studio background.`;
+    const prompt = `Realistic full-body portrait of ${genderString} in ${archetype}-inspired outfit, modern casual style, ${qualityPrompt}. The person should look confident and happy. Neutral studio background.`;
     try {
         const response = await this.ai.models.generateImages({
             model: 'imagen-4.0-generate-001',

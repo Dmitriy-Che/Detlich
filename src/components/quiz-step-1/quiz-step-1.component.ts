@@ -19,7 +19,7 @@ export class QuizStep1Component {
   height: number | null = null;
   weight: number | null = null;
   age: number | null = null;
-  gender: string = 'prefer not to say';
+  gender: string = '';
   
   errorMessage = signal<string | null>(null);
 
@@ -50,7 +50,7 @@ export class QuizStep1Component {
 
   async submit(): Promise<void> {
     this.errorMessage.set(null);
-    if (!this.photoFile || this.height === null || this.weight === null || this.age === null || this.height <= 0 || this.weight <= 0 || this.age <= 0) {
+    if (!this.photoFile || !this.height || !this.weight || !this.age || !this.gender || this.height <= 0 || this.weight <= 0 || this.age <= 0) {
         this.errorMessage.set('Пожалуйста, заполни все поля и загрузи фото, используя корректные значения.');
         return;
     }
