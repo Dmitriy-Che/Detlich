@@ -43,13 +43,29 @@
             'fade-in-up': {
               '0%': { opacity: '0', transform: 'translateY(10px)' },
               '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            'aurora-bg': {
+              '0%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+              '100%': { backgroundPosition: '0% 50%' },
+            },
+            'text-shimmer': {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' },
+            },
+            'fade-in-screen': {
+              '0%': { opacity: '0', transform: 'translateY(5px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
             }
           },
           animation: {
-            sparkle: 'sparkle 2s ease-in-out infinite',
+            sparkle: 'sparkle 3s ease-in-out infinite',
             glow: 'glow 3s ease-in-out infinite',
             'fade-in': 'fade-in 0.3s ease-out',
-            'fade-in-up': 'fade-in-up 0.2s ease-out'
+            'fade-in-up': 'fade-in-up 0.2s ease-out',
+            'aurora-bg': 'aurora-bg 15s ease infinite',
+            'text-shimmer': 'text-shimmer 4s linear infinite',
+            'fade-in-screen': 'fade-in-screen 0.4s ease-out',
           }
         }
       }
@@ -58,8 +74,21 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     body {
-      background-color: #F5F0E6; /* beige */
+      background-color: #F5F0E6; /* fallback */
       font-family: 'Montserrat', 'sans-serif';
+    }
+    .aurora-background {
+      background: linear-gradient(125deg, #F8E8EE, #E6E6FA, #E0F7FA, #F5F0E6);
+      background-size: 400% 400%;
+      animation: aurora-bg 15s ease infinite;
+    }
+    .text-shimmer {
+      background: linear-gradient(90deg, #3C304A, #D4AF37, #3C304A);
+      background-size: 200% auto;
+      color: transparent;
+      background-clip: text;
+      -webkit-background-clip: text;
+      animation: text-shimmer 5s linear infinite;
     }
   </style>
 <script type="importmap">
@@ -82,7 +111,7 @@
 }
 </script>
 </head>
-<body class="antialiased text-dark-purple">
+<body class="antialiased text-dark-purple aurora-background">
   <app-root></app-root>
 </body>
 </html>

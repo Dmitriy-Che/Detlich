@@ -1,12 +1,30 @@
-
 <div class="flex flex-col items-center justify-center text-center p-6 w-full">
-  <div class="w-full bg-white/50 rounded-full h-6 mb-4 shadow-inner border border-lavender/50 relative">
-    <div class="bg-gradient-to-r from-powder-pink via-lavender to-gold-accent h-6 rounded-full transition-all duration-300 ease-linear" [style.width.%]="progress()"></div>
-    <span class="absolute inset-0 flex items-center justify-center text-xs font-bold text-dark-purple">
+  <div class="relative w-48 h-48 flex items-center justify-center">
+    <!-- Rotating rings -->
+    <div class="absolute w-full h-full border-2 border-lavender/50 rounded-full animate-spin" style="animation-duration: 8s; animation-timing-function: linear;"></div>
+    <div class="absolute w-40 h-40 border-t-2 border-l-2 border-gold-accent/70 rounded-full animate-spin" style="animation-duration: 6s; animation-direction: reverse; animation-timing-function: ease-in-out;"></div>
+    <div class="absolute w-28 h-28 border-b-2 border-r-2 border-powder-pink rounded-full animate-spin" style="animation-duration: 10s; animation-timing-function: linear;"></div>
+
+    <!-- Progress Circle -->
+    <svg class="w-24 h-24 transform -rotate-90" viewBox="0 0 100 100">
+      <circle class="text-white/30" stroke-width="5" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" />
+      <circle class="text-gold-accent transition-all duration-300 ease-linear"
+              stroke-width="5"
+              [attr.stroke-dasharray]="2 * 3.14159 * 45"
+              [attr.stroke-dashoffset]="(2 * 3.14159 * 45) * (1 - progress() / 100)"
+              stroke-linecap="round"
+              stroke="currentColor"
+              fill="transparent"
+              r="45"
+              cx="50"
+              cy="50" />
+    </svg>
+    <span class="absolute text-2xl font-sans font-bold text-dark-purple">
       {{ flooredProgress() }}%
     </span>
   </div>
-  <h2 class="font-serif text-3xl font-bold mt-4">
+
+  <h2 class="font-serif text-3xl font-bold mt-8">
     Анализ...
   </h2>
   <p class="font-sans text-md text-dark-purple/80 mt-2 min-h-[2em]">

@@ -1,9 +1,21 @@
 <div class="w-full max-w-md mx-auto p-6 bg-white/80 rounded-3xl shadow-lg backdrop-blur-sm animate-glow">
   
   @if (paymentStatus() === 'success') {
-    <div class="text-center">
-      <h2 class="font-serif text-3xl font-bold text-green-600 mb-4">Оплата прошла успешно!</h2>
-      <p class="font-sans mb-6">Ваш полный отчёт и портрет доступны ниже. Мы также отправили копию вам на почту {{ stateService.userEmail() }}.</p>
+    <div class="text-center relative">
+      <!-- Sparkle decorations for success -->
+      <div class="absolute -top-2 -left-2 text-gold-accent opacity-80">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 animate-sparkle" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      </div>
+       <div class="absolute -bottom-4 -right-2 text-powder-pink opacity-80">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 animate-sparkle" style="animation-delay: 0.5s" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      </div>
+
+      <h2 class="font-serif text-3xl font-bold text-green-600 mb-4">Магия свершилась!</h2>
+      <p class="font-sans mb-6">Ваш полный отчёт доступен ниже. Мы также отправили копию вам на почту {{ stateService.userEmail() }}.</p>
       
       @if(isLoadingPaidContent()) {
         <div class="flex justify-center items-center p-8">
@@ -11,22 +23,18 @@
         </div>
       } @else {
         <div class="text-left bg-beige/50 p-4 rounded-xl space-y-6">
-          <div>
-            <h3 class="font-serif text-2xl font-semibold">Полный детейлинг личности</h3>
-            <p class="font-sans mt-2">{{ paidContent().fullReport }}</p>
-          </div>
           
           @if(paidContent().paidPortrait; as portrait) {
-            <div>
-              <h3 class="font-serif text-2xl font-semibold">Ваш персональный образ в стиле</h3>
+            <div class="p-4 bg-white/50 rounded-lg">
+              <h3 class="font-serif text-2xl font-semibold flex items-center gap-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg>Ваш персональный образ</h3>
               <img [src]="portrait" (click)="showImage(portrait)" alt="Персональный образ в стиле" class="rounded-lg shadow-md w-full h-auto object-cover aspect-[3/4] mt-2 cursor-pointer hover:opacity-90 transition-opacity">
             </div>
           }
 
           <!-- Full Crystals Section -->
           @if(paidContent().crystals) {
-            <div>
-              <h3 class="font-serif text-2xl font-semibold">Твои камни-талисманы</h3>
+            <div class="p-4 bg-white/50 rounded-lg">
+              <h3 class="font-serif text-2xl font-semibold flex items-center gap-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H7a2 2 0 01-2-2V4zm11.293 7.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 12H5.414l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 10h9.172l-3.293-3.293a1 1 0 011.414-1.414l4 4z" /></svg>Твои камни-талисманы</h3>
               <div class="space-y-4 mt-2">
                 @for(crystal of paidContent().crystals; track crystal.name) {
                   <div class="flex items-start gap-4 p-3 bg-white/50 rounded-lg">
@@ -43,8 +51,8 @@
           }
            <!-- Full Celebrities Section -->
           @if(paidContent().celebrities) {
-            <div>
-              <h3 class="font-serif text-2xl font-semibold">Сходство со знаменитостями</h3>
+            <div class="p-4 bg-white/50 rounded-lg">
+              <h3 class="font-serif text-2xl font-semibold flex items-center gap-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 10a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm14 0a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM10 16a1 1 0 01-1 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM16 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM3 10a1 1 0 01-1 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM10 4a1 1 0 01-1 1v1a1 1 0 11-2 0V5a1 1 0 011-1zM16 4a1 1 0 01-1 1v1a1 1 0 11-2 0V5a1 1 0 011-1zM3 4a1 1 0 01-1 1v1a1 1 0 11-2 0V5a1 1 0 011-1z" clip-rule="evenodd" /></svg>Сходство со знаменитостями</h3>
               <div class="space-y-4 mt-2">
                 @for(celebrity of paidContent().celebrities; track celebrity.name) {
                   <div class="p-3 bg-white/50 rounded-lg">
@@ -63,8 +71,8 @@
           }
           <!-- Full Interior Design Section -->
           @if(paidContent().interiorDesign) {
-            <div>
-              <h3 class="font-serif text-2xl font-semibold">Гармония твоего дома</h3>
+            <div class="p-4 bg-white/50 rounded-lg">
+              <h3 class="font-serif text-2xl font-semibold flex items-center gap-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>Гармония твоего дома</h3>
               <div class="space-y-2 mt-2">
                 @for(recommendation of paidContent().interiorDesign.recommendations; track recommendation) {
                     <div class="p-3 bg-white/50 rounded-lg">
@@ -94,18 +102,18 @@
     </div>
 
     <div class="space-y-4">
-      <div class="p-6 bg-powder-pink/60 rounded-2xl border border-gold-accent/50 shadow-sm">
-        <h3 class="font-serif text-2xl font-semibold">Полный детейлинг личности</h3>
-        <p class="font-sans text-sm text-dark-purple/70 mt-1 mb-3">Подробный анализ, камни-талисманы, сходство со знаменитостями и эксклюзивные образы.</p>
+      <div class="p-6 bg-gradient-to-br from-powder-pink to-gold-accent/30 rounded-2xl border border-gold-accent/50 shadow-md transform hover:scale-105 transition-transform">
+        <h3 class="font-serif text-2xl font-semibold flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 10a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm14 0a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM10 16a1 1 0 01-1 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM16 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM3 10a1 1 0 01-1 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM10 4a1 1 0 01-1 1v1a1 1 0 11-2 0V5a1 1 0 011-1zM16 4a1 1 0 01-1 1v1a1 1 0 11-2 0V5a1 1 0 011-1zM3 4a1 1 0 01-1 1v1a1 1 0 11-2 0V5a1 1 0 011-1z" clip-rule="evenodd" /></svg>Полный детейлинг</h3>
+        <p class="font-sans text-sm text-dark-purple/70 mt-1 mb-3">Полный анализ, талисманы, знаменитости, эксклюзивные образы и обновления.</p>
         <button (click)="openPaymentModal('subscription')" class="w-full bg-gold-accent text-white font-bold py-2 px-4 rounded-xl hover:opacity-90 transition-opacity">
           Подписка – 499 ₽/мес
         </button>
       </div>
       
-      <div class="p-6 bg-mint/60 rounded-2xl border border-gold-accent/50 shadow-sm">
-        <h3 class="font-serif text-2xl font-semibold">Персональный образ в стиле</h3>
-        <p class="font-sans text-sm text-dark-purple/70 mt-1 mb-3">Уникальный нейро-арт образ, созданный на основе твоего типажа и энергии.</p>
-        <button (click)="openPaymentModal('portrait')" class="w-full bg-dark-purple text-white font-bold py-2 px-4 rounded-xl hover:bg-dark-purple/90 transition-opacity">
+      <div class="p-6 bg-dark-purple/80 text-white rounded-2xl border border-lavender/30 shadow-md transform hover:scale-105 transition-transform">
+         <h3 class="font-serif text-2xl font-semibold flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg>Персональный образ</h3>
+        <p class="font-sans text-sm text-white/80 mt-1 mb-3">Уникальный нейро-арт образ, созданный на основе твоего типажа.</p>
+        <button (click)="openPaymentModal('portrait')" class="w-full bg-white text-dark-purple font-bold py-2 px-4 rounded-xl hover:bg-white/90 transition-opacity">
           Разово – 790 ₽
         </button>
       </div>
