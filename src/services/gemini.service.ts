@@ -276,28 +276,10 @@ export class GeminiService {
 
 
   async generateOutfitImage(archetype: string, gender: string, quality: 'low' | 'high'): Promise<string> {
-    const genderString = gender === 'male' ? 'a man' : 'a woman';
-    const qualityPrompt = quality === 'high' 
-        ? 'ultra high detail, masterpiece, photorealistic' 
-        : 'high resolution, positive vibe';
-
-    const prompt = `Realistic full-body portrait of ${genderString} in ${archetype}-inspired outfit, modern casual style, ${qualityPrompt}. The person should look confident and happy. Neutral studio background.`;
-    try {
-        const response = await this.ai.models.generateImages({
-            model: 'imagen-4.0-generate-001',
-            prompt: prompt,
-            config: {
-              numberOfImages: 1,
-              outputMimeType: 'image/jpeg',
-              aspectRatio: '3:4',
-            },
-        });
-        const base64ImageBytes = response.generatedImages[0].image.imageBytes;
-        return `data:image/jpeg;base64,${base64ImageBytes}`;
-    } catch (error) {
-        console.error('Error generating outfit image:', error);
-        return `https://picsum.photos/seed/${archetype}/300/400`;
-    }
+    // Create a unique seed for the placeholder image based on the inputs.
+    // This replaces the Gemini Image Generation API call to avoid quota errors.
+    const seed = `${archetype}_${gender}_${quality}`.replace(/[^a-zA-Z0-9]/g, '_');
+    return Promise.resolve(`https://picsum.photos/seed/${seed}/300/400`);
   }
 
   async getHoroscope(birthDate: string): Promise<HoroscopeResult> {
