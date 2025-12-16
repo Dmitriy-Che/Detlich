@@ -11,6 +11,7 @@ import { HoroscopeUpsellComponent } from './components/horoscope-upsell/horoscop
 import { MonetizationComponent } from './components/monetization/monetization.component';
 import { LoadingHoroscopeComponent } from './components/loading-horoscope/loading-horoscope.component';
 import { ResultHoroscopeComponent } from './components/result-horoscope/result-horoscope.component';
+import { ShareComponent } from './components/share/share.component';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,7 @@ import { ResultHoroscopeComponent } from './components/result-horoscope/result-h
     LoadingHoroscopeComponent,
     ResultHoroscopeComponent,
     MonetizationComponent,
+    ShareComponent,
   ],
 })
 export class AppComponent {

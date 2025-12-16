@@ -18,11 +18,25 @@ export interface QuizData {
   gender: string;
 }
 
+// --- New & Updated Interfaces ---
+
+export interface CrystalTeaser {
+  name: string;
+  shortDescription: string;
+}
+
+export interface CelebrityTeaser {
+  name: string;
+  shortDescription: string;
+}
+
 export interface AnalysisResult {
   archetype: string;
   description: string;
   recommendations: string[];
   previewImages: string[];
+  crystalTeaser: CrystalTeaser[];
+  celebrityTeaser: CelebrityTeaser[];
 }
 
 export interface HoroscopeResult {
@@ -30,6 +44,28 @@ export interface HoroscopeResult {
     career: string;
     health: string;
 }
+
+export interface CrystalInfo {
+  name: string;
+  description: string;
+  usage: string;
+  photoUrl: string;
+}
+
+export interface CelebrityMatch {
+  name: string;
+  similarity: number;
+  reason: string;
+  photoUrl: string;
+}
+
+export interface PaidContent {
+  fullReport?: string;
+  paidPortrait?: string;
+  crystals?: CrystalInfo[];
+  celebrities?: CelebrityMatch[];
+}
+
 
 @Injectable({
   providedIn: 'root'

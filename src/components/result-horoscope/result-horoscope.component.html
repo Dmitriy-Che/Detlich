@@ -23,6 +23,9 @@
     <button (click)="goToNextStep()" class="mt-8 w-full bg-gold-accent text-white font-bold py-3 px-4 rounded-xl hover:opacity-90 transition-opacity transform hover:scale-105 shadow-lg">
       Раскрыть весь потенциал
     </button>
+
+    <app-share [shareText]="shareText" [shareTitle]="shareTitle"></app-share>
+
   } @else {
      <p class="text-center font-sans">Загружаем твой гороскоп...</p>
   }

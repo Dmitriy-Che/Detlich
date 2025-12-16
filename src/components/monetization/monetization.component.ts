@@ -2,14 +2,15 @@
 import { Component, ChangeDetectionStrategy, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { StateService, QuizData } from '../../services/state.service';
+import { StateService, PaidContent } from '../../services/state.service';
 import { GeminiService } from '../../services/gemini.service';
+import { ShareComponent } from '../share/share.component';
 
 declare var YooCheckoutWidget: any;
 
 @Component({
   selector: 'app-monetization',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ShareComponent],
   templateUrl: './monetization.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -25,30 +26,42 @@ export class MonetizationComponent implements OnInit {
   emailError = signal<string | null>(null);
   
   paymentStatus = signal<'success' | 'cancelled' | null>(null);
-  paidContent = signal<{ fullReport?: string; paidPortrait?: string }>({});
+  paidContent = signal<PaidContent>({});
+  isLoadingPaidContent = signal(false);
+
+  shareText = "Я получила полный Детейлинг своей личности! Это невероятно. ✨ Узнай и ты свой типаж, камни-талисманы и многое другое.";
+  shareTitle = "Мой полный Детейлинг личности";
 
   ngOnInit() {
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('payment') === 'success') {
+    if (urlParams.get('payment') === 'success' && !this.paymentStatus()) {
       this.paymentStatus.set('success');
       this.loadPaidContent();
-    } else if (urlParams.get('payment') === 'cancelled') {
+    } else if (urlParams.get('payment') === 'cancelled' && !this.paymentStatus()) {
         this.paymentStatus.set('cancelled');
     }
   }
   
   async loadPaidContent() {
-    // In a real app, this would fetch content unlocked by payment.
-    // Here we generate it on the fly for demonstration.
+    this.isLoadingPaidContent.set(true);
     const analysis = this.stateService.analysisResult();
     const quizData = this.stateService.quizData();
-    if(analysis && quizData) {
-        const portrait = await this.geminiService.generateOutfitImage(analysis.archetype, quizData.gender, 'high');
+    const birthDate = this.stateService.birthDate();
+
+    if(analysis && quizData && birthDate) {
+        const [premiumData, portrait] = await Promise.all([
+            this.geminiService.getPremiumContent(quizData, birthDate, analysis.archetype),
+            this.geminiService.generateOutfitImage(analysis.archetype, quizData.gender, 'high')
+        ]);
+        
         this.paidContent.set({
             fullReport: "Это ваш полный отчет. Здесь будет детальный разбор вашего архетипа, расширенные рекомендации по стилю, нумерологический анализ и многое другое, что поможет вам на пути самопознания. Каждая деталь важна, и мы раскрываем их все для вас.",
-            paidPortrait: portrait
+            paidPortrait: portrait,
+            crystals: premiumData.crystals,
+            celebrities: premiumData.celebrities
         });
     }
+    this.isLoadingPaidContent.set(false);
   }
 
   openPaymentModal(type: 'subscription' | 'portrait') {
@@ -74,17 +87,11 @@ export class MonetizationComponent implements OnInit {
     this.stateService.userEmail.set(this.email());
     
     // In a REAL application, you MUST get the confirmation_token from your backend.
-    // Your backend would make a secure API call to YooKassa to create a payment
-    // and would return the token to the frontend.
-    // Hardcoding it here is for DEMONSTRATION purposes ONLY and will NOT work with real payments.
     const MOCK_CONFIRMATION_TOKEN = 'confirmation_token_from_your_backend';
 
     const checkout = new YooCheckoutWidget({
-      // Replace with your actual confirmation_token from the backend
       confirmation_token: MOCK_CONFIRMATION_TOKEN, 
-      // Replace with your real return_url
       return_url: `${window.location.origin}${window.location.pathname}?payment=success`, 
-      // Add other customization options as needed
       customization: {
         colors: {
           control_primary: '#D4AF37'
@@ -92,26 +99,15 @@ export class MonetizationComponent implements OnInit {
       },
       error_callback: (error: any) => {
         console.error('YooKassa error:', error);
-        // Handle payment errors
         window.location.href = `${window.location.origin}${window.location.pathname}?payment=cancelled`;
       }
     });
 
-    checkout.render('payment-form-container')
-      .then(() => {
-        console.log('YooKassa widget rendered');
-        this.closeModal();
-      })
-      .catch((err: any) => {
-        console.error('Failed to render YooKassa widget', err);
-        this.emailError.set('Не удалось инициализировать оплату. Попробуйте позже.');
-      });
-
-    // For this static demo, since we can't get a real token, we will simulate a successful payment flow.
-    // COMMENT OUT the code below and UNCOMMENT the checkout code above when you have a backend.
+    // For this static demo, we simulate a successful payment flow.
     console.warn("DEMO MODE: Simulating successful payment flow. Implement backend for real payments.");
     setTimeout(() => {
-        window.location.href = `${window.location.origin}${window.location.pathname}?payment=success`;
+        const cleanUrl = window.location.href.split('?')[0];
+        window.location.href = `${cleanUrl}?payment=success`;
     }, 2000);
   }
 }
