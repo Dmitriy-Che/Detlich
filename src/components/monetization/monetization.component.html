@@ -17,10 +17,10 @@
             <p class="font-sans mt-2">{{ paidContent().fullReport }}</p>
           </div>
           
-          @if(paidContent().paidPortrait) {
+          @if(paidContent().paidPortrait; as portrait) {
             <div>
               <h3 class="font-serif text-2xl font-semibold">Ваш персональный образ в стиле</h3>
-              <img [src]="paidContent().paidPortrait" alt="Персональный образ в стиле" class="rounded-lg shadow-md w-full h-auto object-cover aspect-[3/4] mt-2">
+              <img [src]="portrait" (click)="showImage(portrait)" alt="Персональный образ в стиле" class="rounded-lg shadow-md w-full h-auto object-cover aspect-[3/4] mt-2 cursor-pointer hover:opacity-90 transition-opacity">
             </div>
           }
 
@@ -31,7 +31,7 @@
               <div class="space-y-4 mt-2">
                 @for(crystal of paidContent().crystals; track crystal.name) {
                   <div class="flex items-start gap-4 p-3 bg-white/50 rounded-lg">
-                    <img [src]="crystal.photoUrl" [alt]="crystal.name" class="w-20 h-20 rounded-md object-cover">
+                    <img [src]="crystal.photoUrl" (click)="showImage(crystal.photoUrl)" [alt]="crystal.name" class="w-20 h-20 rounded-md object-cover cursor-pointer hover:opacity-90 transition-opacity">
                     <div>
                       <h4 class="font-serif text-lg font-bold">{{crystal.name}}</h4>
                       <p class="font-sans text-sm">{{crystal.description}}</p>
@@ -50,7 +50,7 @@
                 @for(celebrity of paidContent().celebrities; track celebrity.name) {
                   <div class="p-3 bg-white/50 rounded-lg">
                     <div class="flex items-center gap-4">
-                      <img [src]="celebrity.photoUrl" [alt]="celebrity.name" class="w-20 h-20 rounded-full object-cover">
+                      <img [src]="celebrity.photoUrl" (click)="showImage(celebrity.photoUrl)" [alt]="celebrity.name" class="w-20 h-20 rounded-full object-cover cursor-pointer hover:opacity-90 transition-opacity">
                       <div>
                         <h4 class="font-serif text-lg font-bold">{{celebrity.name}}</h4>
                         <p class="font-sans text-sm font-bold text-gold-accent">Сходство: {{celebrity.similarity}}%</p>
@@ -126,5 +126,12 @@
       
       <div id="payment-form-container" class="mt-4"></div>
     </div>
+  </div>
+}
+
+<!-- Image Modal -->
+@if (selectedImage(); as imageUrl) {
+  <div (click)="hideImage()" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
+    <img [src]="imageUrl" (click)="$event.stopPropagation()" alt="Пример образа в увеличенном виде" class="max-w-full max-h-full object-contain rounded-xl shadow-2xl" style="max-width: 1000px; max-height: 1000px;">
   </div>
 }

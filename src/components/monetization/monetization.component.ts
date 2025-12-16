@@ -29,6 +29,8 @@ export class MonetizationComponent implements OnInit {
   paidContent = signal<PaidContent>({});
   isLoadingPaidContent = signal(false);
 
+  selectedImage = signal<string | null>(null);
+
   shareText = "Я получила полный Детейлинг своей личности! Это невероятно. ✨ Узнай и ты свой типаж, камни-талисманы и многое другое.";
   shareTitle = "Мой полный Детейлинг личности";
 
@@ -109,5 +111,13 @@ export class MonetizationComponent implements OnInit {
         const cleanUrl = window.location.href.split('?')[0];
         window.location.href = `${cleanUrl}?payment=success`;
     }, 2000);
+  }
+
+  showImage(imageUrl: string) {
+    this.selectedImage.set(imageUrl);
+  }
+
+  hideImage() {
+    this.selectedImage.set(null);
   }
 }

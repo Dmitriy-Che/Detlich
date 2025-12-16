@@ -30,28 +30,28 @@ export class LoadingHoroscopeComponent implements OnInit, OnDestroy {
   }
 
   startProgressSimulation() {
-    const totalDuration = 5000; // 5 seconds
-    const intervalTime = 50;
-    const increment = 100 / (totalDuration / intervalTime);
+    const totalDuration = 4000; // Time to reach 90%
+    const intervalTime = 40;
+    const targetProgress = 90;
+    const increment = targetProgress / (totalDuration / intervalTime);
     
     const messages: { [key: number]: string } = {
         0: "Составляю натальную карту...",
         25: "Ищу твой асцендент...",
         50: "Толкую положение планет...",
         75: "Заглядываю в будущее...",
-        95: "Послание почти готово! ✅"
     };
 
     this.intervalId = setInterval(() => {
         this.progress.update(p => {
-            const newProgress = Math.min(p + increment, 99); // Stop at 99%
+            const newProgress = Math.min(p + increment, targetProgress);
             const currentMessageKey = Object.keys(messages).reverse().find(key => newProgress >= parseInt(key));
             if (currentMessageKey) {
                 this.progressText.set(messages[parseInt(currentMessageKey)]);
             }
             return newProgress;
         });
-        if (this.progress() >= 99) {
+        if (this.progress() >= targetProgress) {
             clearInterval(this.intervalId);
         }
     }, intervalTime);
@@ -71,12 +71,18 @@ export class LoadingHoroscopeComponent implements OnInit, OnDestroy {
         if (this.intervalId) {
             clearInterval(this.intervalId);
         }
+        
+        this.progress.set(99);
+        this.progressText.set("Послание почти готово! ✅");
+        
+        await new Promise(resolve => setTimeout(resolve, 400));
+
         this.progress.set(100);
         this.progressText.set("Готово!");
         
-        setTimeout(() => {
-            this.stateService.setHoroscopeResult(result);
-        }, 500);
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        this.stateService.setHoroscopeResult(result);
 
     } catch (error) {
         console.error("Horoscope generation failed", error);

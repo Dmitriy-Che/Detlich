@@ -13,6 +13,7 @@ declare var process: any;
 })
 export class GeminiService {
   private ai: GoogleGenAI;
+  private userFriendlyErrorMessage = 'Звёзды временно перегружены: слишком много желающих узнать свою судьбу! Пожалуйста, попробуйте через несколько минут.';
 
   constructor() {
     if (!process.env.API_KEY) {
@@ -83,7 +84,7 @@ export class GeminiService {
       console.error('Error getting personality analysis:', error);
       return {
         archetype: 'Загадочная Душа',
-        description: 'Произошла магическая аномалия при связи со звездами. Пожалуйста, попробуйте еще раз.',
+        description: this.userFriendlyErrorMessage,
         recommendations: ['Доверяйте своей интуиции.', 'Носите цвета, которые радуют вашу душу.'],
         previewImages: ['https://picsum.photos/300/400?random=1', 'https://picsum.photos/300/400?random=2'],
         crystalTeaser: [{ name: 'Лунный камень', shortDescription: 'интуиция и спокойствие' }],
@@ -153,7 +154,7 @@ export class GeminiService {
     } catch (error) {
         console.error('Error getting premium crystals:', error);
         return [
-            { name: 'Розовый кварц', description: 'Камень безусловной любви и гармонии.', usage: 'Держите в руках во время медитации.', photoUrl: 'https://picsum.photos/seed/rose_quartz/400/400' }
+            { name: 'Розовый кварц', description: this.userFriendlyErrorMessage, usage: 'Держите в руках во время медитации.', photoUrl: 'https://picsum.photos/seed/rose_quartz/400/400' }
         ];
     }
   }
@@ -199,7 +200,7 @@ export class GeminiService {
     } catch (error) {
         console.error('Error getting premium celebrities:', error);
         return [
-            { name: 'Моника Беллуччи', similarity: 85, reason: 'Сходство в утонченности и магнетизме взгляда.', photoUrl: 'https://picsum.photos/seed/monica_bellucci/400/400' }
+            { name: 'Моника Беллуччи', similarity: 85, reason: this.userFriendlyErrorMessage, photoUrl: 'https://picsum.photos/seed/monica_bellucci/400/400' }
         ];
     }
   }
@@ -260,7 +261,7 @@ export class GeminiService {
     } catch(error) {
         console.error('Error getting horoscope:', error);
         return {
-            love: 'Звёзды говорят, что сейчас лучшее время, чтобы полюбить и принять себя.',
+            love: this.userFriendlyErrorMessage,
             career: 'Ваша креативная энергия на пике! Не бойтесь предлагать смелые идеи.',
             health: 'Прислушайтесь к своему телу. Медитации и прогулки принесут гармонию.'
         }

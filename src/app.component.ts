@@ -43,4 +43,8 @@ export class AppComponent {
   goToHome(): void {
     this.stateService.resetToHome();
   }
+
+  goBack(): void {
+    this.stateService.goBack();
+  }
 }

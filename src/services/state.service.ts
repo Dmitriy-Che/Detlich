@@ -142,6 +142,23 @@ export class StateService {
     this.currentScreen.set(screen);
   }
 
+  goBack() {
+    switch (this.currentScreen()) {
+      case 'monetization':
+        this.navigateTo('result-horoscope');
+        break;
+      case 'result-horoscope':
+        this.navigateTo('horoscope-upsell');
+        break;
+      case 'horoscope-upsell':
+        this.navigateTo('result-basic');
+        break;
+      case 'result-basic':
+        this.navigateTo('quiz-step-1');
+        break;
+    }
+  }
+
   resetToHome() {
     this.user.set(null);
     this.quizData.set(null);

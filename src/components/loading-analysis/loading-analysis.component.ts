@@ -30,9 +30,10 @@ export class LoadingAnalysisComponent implements OnInit, OnDestroy {
   }
 
   startProgressSimulation() {
-    const totalDuration = 7000; // 7 seconds
-    const intervalTime = 70;
-    const increment = 100 / (totalDuration / intervalTime);
+    const totalDuration = 6000; // Time to reach 90%
+    const intervalTime = 60;
+    const targetProgress = 90;
+    const increment = targetProgress / (totalDuration / intervalTime);
     
     const messages: { [key: number]: string } = {
         0: "Соединяюсь с космосом...",
@@ -40,19 +41,18 @@ export class LoadingAnalysisComponent implements OnInit, OnDestroy {
         40: "Сверяюсь со звёздной картой...",
         60: "Подбираю палитру стиля...",
         80: "Формирую персональные советы...",
-        95: "Почти готово! ✅"
     };
 
     this.intervalId = setInterval(() => {
         this.progress.update(p => {
-            const newProgress = Math.min(p + increment, 99); // Stop at 99%
+            const newProgress = Math.min(p + increment, targetProgress);
             const currentMessageKey = Object.keys(messages).reverse().find(key => newProgress >= parseInt(key));
             if (currentMessageKey) {
                 this.progressText.set(messages[parseInt(currentMessageKey)]);
             }
             return newProgress;
         });
-        if (this.progress() >= 99) {
+        if (this.progress() >= targetProgress) {
             clearInterval(this.intervalId);
         }
     }, intervalTime);
@@ -72,12 +72,18 @@ export class LoadingAnalysisComponent implements OnInit, OnDestroy {
         if (this.intervalId) {
             clearInterval(this.intervalId);
         }
+
+        this.progress.set(99);
+        this.progressText.set("Почти готово! ✅");
+
+        await new Promise(resolve => setTimeout(resolve, 400));
+
         this.progress.set(100);
         this.progressText.set("Готово!");
         
-        setTimeout(() => {
-            this.stateService.setAnalysisResult(result);
-        }, 500);
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        this.stateService.setAnalysisResult(result);
 
     } catch (error) {
         console.error("Analysis failed", error);
