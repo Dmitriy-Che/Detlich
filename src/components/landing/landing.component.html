@@ -1,0 +1,51 @@
+
+<div class="flex flex-col items-center justify-center text-center p-6 bg-white/70 rounded-3xl shadow-lg backdrop-blur-sm">
+  <h1 class="font-serif text-4xl md:text-5xl font-bold mb-2 text-dark-purple">
+    Детейлинг личности ✨
+  </h1>
+  <p class="font-sans text-md mb-4 max-w-sm text-dark-purple/80">
+    Загрузите своё селфи — и ИИ раскроет вашу уникальную внутреннюю магию.
+  </p>
+
+  <div class="text-left font-sans text-sm text-dark-purple/90 mb-4 p-4 bg-powder-pink/30 rounded-xl w-full max-w-sm">
+    <p class="font-semibold mb-2">Вы получите:</p>
+    <ul class="space-y-1">
+      <li class="flex items-start"><span class="mr-2 text-gold-accent">•</span><span>Персональный типаж внешности и характера</span></li>
+      <li class="flex items-start"><span class="mr-2 text-gold-accent">•</span><span>Рекомендации по стилю одежды, макияжу и причёске</span></li>
+      <li class="flex items-start"><span class="mr-2 text-gold-accent">•</span><span>Гармоничный интерьер дома под вашу энергию</span></li>
+      <li class="flex items-start"><span class="mr-2 text-gold-accent">•</span><span>Питание и привычки для здоровья и сияния</span></li>
+      <li class="flex items-start"><span class="mr-2 text-gold-accent">•</span><span>Гороскоп на 30 дней с советами от звёзд</span></li>
+      <li class="flex items-start"><span class="mr-2 text-gold-accent">•</span><span>Волшебный нейро-портрет в мистическом стиле</span></li>
+    </ul>
+  </div>
+
+  <div class="grid grid-cols-2 gap-2 mb-6 max-w-sm w-full">
+    <img ngSrc="https://picsum.photos/seed/magic1/200/300" width="200" height="300" alt="Магический портрет 1" class="rounded-lg shadow-md aspect-[2/3] object-cover w-full h-full">
+    <img ngSrc="https://picsum.photos/seed/magic2/200/300" width="200" height="300" alt="Магический портрет 2" class="rounded-lg shadow-md aspect-[2/3] object-cover w-full h-full">
+    <img ngSrc="https://picsum.photos/seed/magic3/200/300" width="200" height="300" alt="Магический портрет 3" class="rounded-lg shadow-md aspect-[2/3] object-cover w-full h-full">
+    <img ngSrc="https://picsum.photos/seed/magic4/200/300" width="200" height="300" alt="Магический портрет 4" class="rounded-lg shadow-md aspect-[2/3] object-cover w-full h-full">
+  </div>
+  
+  <p class="font-sans text-sm mb-4 max-w-sm text-dark-purple/80">
+    <b>Бесплатно</b> — базовый анализ и тизер-портрет.<br>
+    <b>Полный детейлинг</b> и эксклюзивные арты — по подписке или разово.
+  </p>
+
+  <p class="font-serif text-lg mb-6 max-w-sm text-dark-purple font-semibold">
+    Войдите через Telegram и начните сиять уже сегодня 💎
+  </p>
+  
+  <div class="mb-4 animate-glow rounded-2xl p-0.5 transform scale-105">
+      <div #telegramLogin></div>
+  </div>
+
+  <!-- This button can be hidden in production by commenting it out -->
+  <div class="mt-4 text-center">
+    <button (click)="demoLogin()" class="text-xs text-dark-purple/70 bg-white/50 px-3 py-1 rounded-full hover:bg-white/80 transition-colors">
+      Тестовый вход (демо-режим)
+    </button>
+    <p class="text-xs text-dark-purple/50 mt-1 max-w-xs">
+      Пропустить авторизацию и посмотреть полный flow (только для теста)
+    </p>
+  </div>
+</div>

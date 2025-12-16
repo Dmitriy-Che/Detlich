@@ -1,0 +1,37 @@
+
+<div class="w-full max-w-md mx-auto p-6 bg-white/80 rounded-3xl shadow-lg backdrop-blur-sm animate-glow">
+  @if (result(); as res) {
+    <div class="text-center">
+      <h2 class="font-serif text-2xl text-dark-purple/80">Твой уникальный типаж:</h2>
+      <h1 class="font-serif text-4xl font-bold text-gold-accent mb-4">{{ res.archetype }}</h1>
+      <p class="font-sans text-md text-dark-purple/90 mb-6">{{ res.description }}</p>
+    </div>
+    
+    <div class="mb-6">
+      <h3 class="font-serif text-2xl font-semibold mb-3 text-center">Рекомендации по стилю:</h3>
+      <ul class="space-y-2 list-none font-sans text-dark-purple/80">
+        @for (item of res.recommendations; track item) {
+          <li class="flex items-start">
+            <span class="text-gold-accent mr-3 mt-1">✨</span>
+            <span>{{ item }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div class="mb-6">
+      <h3 class="font-serif text-2xl font-semibold mb-3 text-center">Примеры образов в твоём стиле:</h3>
+      <div class="grid grid-cols-2 gap-4">
+        @for (img of res.previewImages; track img) {
+          <img [src]="img" alt="Пример образа в стиле" class="rounded-xl shadow-md w-full h-auto object-cover aspect-[3/4]">
+        }
+      </div>
+    </div>
+    
+    <button (click)="goToNextStep()" class="w-full bg-gold-accent text-white font-bold py-3 px-4 rounded-xl hover:opacity-90 transition-opacity transform hover:scale-105 shadow-lg">
+      Узнать своё будущее
+    </button>
+  } @else {
+    <p class="text-center font-sans">Загружаем результаты анализа...</p>
+  }
+</div>

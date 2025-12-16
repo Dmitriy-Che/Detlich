@@ -1,0 +1,81 @@
+
+<div class="w-full max-w-md mx-auto p-6 bg-white/80 rounded-3xl shadow-lg backdrop-blur-sm animate-glow">
+  
+  @if (paymentStatus() === 'success') {
+    <div class="text-center">
+      <h2 class="font-serif text-3xl font-bold text-green-600 mb-4">Оплата прошла успешно!</h2>
+      <p class="font-sans mb-6">Ваш полный отчёт и портрет доступны ниже. Мы также отправили копию вам на почту {{ stateService.userEmail() }}.</p>
+      
+      <div class="text-left bg-beige/50 p-4 rounded-xl space-y-4">
+        <h3 class="font-serif text-2xl font-semibold">Полный детейлинг личности</h3>
+        <p class="font-sans">{{ paidContent().fullReport }}</p>
+        
+        @if(paidContent().paidPortrait) {
+          <h3 class="font-serif text-2xl font-semibold mt-4">Ваш персональный образ в стиле</h3>
+          <img [src]="paidContent().paidPortrait" alt="Персональный образ в стиле" class="rounded-lg shadow-md w-full h-auto object-cover aspect-[3/4] mt-2">
+        }
+      </div>
+    </div>
+  } @else {
+    @if (paymentStatus() === 'cancelled') {
+        <p class="text-center text-red-600 bg-red-100 p-3 rounded-lg mb-4">Платёж был отменён. Вы можете попробовать снова в любое время.</p>
+    }
+    <div class="text-center">
+      <h1 class="font-serif text-4xl font-bold mb-2">Раскрой свой потенциал</h1>
+      <p class="font-sans text-lg mb-8 text-dark-purple/80">Ты на пороге великих открытий. Выбери свой путь к полной гармонии.</p>
+    </div>
+
+    <div class="space-y-4">
+      <div class="p-6 bg-powder-pink/60 rounded-2xl border border-gold-accent/50 shadow-sm">
+        <h3 class="font-serif text-2xl font-semibold">Полный детейлинг личности</h3>
+        <p class="font-sans text-sm text-dark-purple/70 mt-1 mb-3">Подробный анализ, нумерология, персональные аффирмации и медитации.</p>
+        <button (click)="openPaymentModal('subscription')" class="w-full bg-gold-accent text-white font-bold py-2 px-4 rounded-xl hover:opacity-90 transition-opacity">
+          Подписка – 499 ₽/мес
+        </button>
+      </div>
+      
+      <div class="p-6 bg-mint/60 rounded-2xl border border-gold-accent/50 shadow-sm">
+        <h3 class="font-serif text-2xl font-semibold">Персональный образ в стиле</h3>
+        <p class="font-sans text-sm text-dark-purple/70 mt-1 mb-3">Уникальный нейро-арт образ, созданный на основе твоего типажа и энергии.</p>
+        <button (click)="openPaymentModal('portrait')" class="w-full bg-dark-purple text-white font-bold py-2 px-4 rounded-xl hover:bg-dark-purple/90 transition-opacity">
+          Персональный образ в стиле – 790 ₽
+        </button>
+      </div>
+    </div>
+  }
+</div>
+
+<!-- Email Collection Modal -->
+@if (showEmailModal()) {
+  <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" (click)="closeModal()">
+    <div class="bg-beige rounded-3xl p-8 shadow-2xl w-full max-w-sm" (click)="$event.stopPropagation()">
+      <h3 class="font-serif text-2xl font-bold text-center mb-2">Почти готово!</h3>
+      <p class="text-center font-sans text-dark-purple/80 mb-6">Для получения чека, полного отчёта и эксклюзивных рекомендаций укажите ваш email. Полезный контент без спама ✨</p>
+      
+      <div class="space-y-4">
+        <div>
+          <label for="email" class="font-sans text-sm font-medium">Ваш Email</label>
+          <input type="email" id="email" name="email" [(ngModel)]="email" required placeholder="example@mail.com" class="mt-1 block w-full bg-white border border-lavender rounded-lg p-2 focus:ring-gold-accent focus:border-gold-accent transition">
+        </div>
+        
+        <div class="flex items-start">
+          <input id="consent" name="consent" type="checkbox" [(ngModel)]="consent" class="h-4 w-4 text-gold-accent border-gray-300 rounded focus:ring-gold-accent mt-1">
+          <label for="consent" class="ml-2 text-sm font-sans text-dark-purple/80">
+            Я согласен(-на) на рассылку полезных советов и обновлений.
+          </label>
+        </div>
+      </div>
+      
+      @if (emailError()) {
+        <p class="text-sm text-red-600 text-center mt-4">{{ emailError() }}</p>
+      }
+      
+      <button (click)="proceedToPayment()" class="mt-6 w-full bg-gold-accent text-white font-bold py-3 px-4 rounded-xl hover:opacity-90 transition-opacity">
+        Оплатить
+      </button>
+      
+      <!-- This container is where YooKassa widget will be rendered if it's initialized -->
+      <div id="payment-form-container" class="mt-4"></div>
+    </div>
+  </div>
+}
