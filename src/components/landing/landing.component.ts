@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit, inject, NgZone } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, AfterViewInit, inject, NgZone, signal, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { StateService, User } from '../../services/state.service';
 
@@ -10,13 +10,21 @@ declare var Telegram: any;
   templateUrl: './landing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LandingComponent implements OnInit {
+export class LandingComponent implements OnInit, AfterViewInit {
+  @ViewChild('telegramLogin') telegramLogin!: ElementRef;
+
   private stateService = inject(StateService);
   private ngZone = inject(NgZone);
+  
+  isMiniApp = signal(false);
+  widgetLoadError = signal(false);
+  currentDomain = signal('');
 
   ngOnInit(): void {
     try {
-      if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+      this.currentDomain.set(window.location.hostname);
+      if (typeof Telegram !== 'undefined' && Telegram.WebApp && Telegram.WebApp.initData) {
+        this.isMiniApp.set(true);
         const tg = Telegram.WebApp;
         tg.ready();
         tg.expand();
@@ -28,8 +36,6 @@ export class LandingComponent implements OnInit {
             photo_url: tg.initDataUnsafe.user.photo_url,
           };
           
-          // Use a small timeout to let the view render before navigating
-          // This prevents a jarring flash of content.
           setTimeout(() => {
             this.ngZone.run(() => {
               this.stateService.login(user);
@@ -37,11 +43,42 @@ export class LandingComponent implements OnInit {
           }, 100);
 
         } else {
-          console.log("Telegram WebApp user data not found. Running in browser mode.");
+          console.warn("Mini App mode, but no user data found.");
         }
+      } else {
+         console.log("Running in standard browser mode.");
       }
     } catch (e) {
       console.error("Telegram WebApp script not loaded or failed.", e);
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.isMiniApp()) {
+      (window as any).onTelegramAuth = (user: User) => {
+        this.ngZone.run(() => {
+          this.stateService.login(user);
+        });
+      };
+
+      const script = document.createElement('script');
+      script.src = "https://telegram.org/js/telegram-widget.js?22";
+      script.setAttribute('data-telegram-login', 'detlich_bot'); 
+      script.setAttribute('data-size', 'large');
+      script.setAttribute('data-radius', '12');
+      script.setAttribute('data-request-access', 'write');
+      script.setAttribute('data-onauth', 'onTelegramAuth(user)');
+      this.telegramLogin.nativeElement.appendChild(script);
+
+      // Check if the widget loaded successfully after a delay
+      setTimeout(() => {
+        this.ngZone.run(() => {
+          const iframe = this.telegramLogin.nativeElement.querySelector('iframe');
+          if (!iframe) {
+            this.widgetLoadError.set(true);
+          }
+        });
+      }, 3000);
     }
   }
 

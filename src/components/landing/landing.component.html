@@ -36,17 +36,48 @@
     <b>Полный детейлинг</b> и эксклюзивные арты — по подписке или разово.
   </p>
 
-  <p class="font-serif text-lg mb-6 max-w-sm text-dark-purple font-semibold animate-pulse">
-    Начните своё преображение 💎
-  </p>
-  
-  <!-- This button can be hidden in production by commenting it out -->
-  <div class="mt-4 text-center">
-    <button (click)="demoLogin()" class="text-xs text-dark-purple/70 bg-white/50 px-3 py-1 rounded-full hover:bg-white/80 transition-colors">
-      Тестовый вход (демо-режим)
-    </button>
-    <p class="text-xs text-dark-purple/50 mt-1 max-w-xs">
-      Пропустить авторизацию и посмотреть полный flow (только для теста)
+  @if (isMiniApp()) {
+    <p class="font-serif text-lg mb-6 max-w-sm text-dark-purple font-semibold animate-pulse">
+      Начните своё преображение 💎
     </p>
-  </div>
+  } @else {
+    <p class="font-serif text-lg mb-6 max-w-sm text-dark-purple font-semibold">
+      Войдите через Telegram и начните сиять уже сегодня 💎
+    </p>
+    
+    <div class="mb-4 animate-glow rounded-2xl p-0.5">
+      <div #telegramLogin></div>
+    </div>
+    
+    @if (widgetLoadError()) {
+      <div class="mt-2 p-4 bg-red-100 border border-red-300 text-red-800 rounded-lg text-sm text-left max-w-sm animate-fade-in">
+        <p class="font-bold mb-2 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 3.001-1.742 3.001H4.42c-1.53 0-2.493-1.667-1.743-3.001l5.58-9.92zM10 13a1 1 0 110-2 1 1 0 010 2zm-1.75-5.25a.75.75 0 00-1.5 0v3.5a.75.75 0 001.5 0v-3.5z" clip-rule="evenodd" />
+          </svg>
+          Ошибка загрузки кнопки
+        </p>
+        <p>Похоже, домен этого сайта не добавлен в настройки вашего Telegram-бота. Чтобы это исправить:</p>
+        <ol class="list-decimal list-inside mt-2 space-y-1 font-sans">
+          <li>Откройте Telegram и найдите <strong>@BotFather</strong>.</li>
+          <li>Отправьте команду <code>/mybots</code> и выберите <code>@detlich_bot</code>.</li>
+          <li>Нажмите "Bot Settings", затем "Domain".</li>
+          <li>Отправьте ему текущий домен:
+            <code class="bg-red-200 text-red-900 font-mono p-1 rounded text-xs">{{ currentDomain() }}</code>
+          </li>
+        </ol>
+        <p class="mt-2">После этого обновите страницу.</p>
+      </div>
+    }
+
+    <!-- This button can be hidden in production by commenting it out -->
+    <div class="mt-4 text-center">
+      <button (click)="demoLogin()" class="text-xs text-dark-purple/70 bg-white/50 px-3 py-1 rounded-full hover:bg-white/80 transition-colors">
+        Тестовый вход (демо-режим)
+      </button>
+      <p class="text-xs text-dark-purple/50 mt-1 max-w-xs">
+        Пропустить авторизацию и посмотреть полный flow (только для теста)
+      </p>
+    </div>
+  }
 </div>
