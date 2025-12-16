@@ -1,5 +1,5 @@
 
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, inject, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GeminiService } from '../../services/gemini.service';
 import { StateService } from '../../services/state.service';
@@ -15,6 +15,7 @@ export class LoadingAnalysisComponent implements OnInit, OnDestroy {
   stateService = inject(StateService);
   progress = signal(0);
   progressText = signal("Соединяюсь с космосом...");
+  flooredProgress = computed(() => Math.floor(this.progress()));
   private intervalId: any;
 
   ngOnInit(): void {

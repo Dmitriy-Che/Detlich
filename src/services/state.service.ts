@@ -11,6 +11,7 @@ export interface User {
 
 export interface QuizData {
   photoBase64: string;
+  photoMimeType: string;
   height: number;
   weight: number;
   age: number;

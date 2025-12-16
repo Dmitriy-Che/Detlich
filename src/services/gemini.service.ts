@@ -25,7 +25,7 @@ export class GeminiService {
   async getPersonalityAnalysis(quizData: QuizData): Promise<AnalysisResult> {
     const imagePart = {
       inlineData: {
-        mimeType: 'image/jpeg',
+        mimeType: quizData.photoMimeType,
         data: quizData.photoBase64,
       },
     };

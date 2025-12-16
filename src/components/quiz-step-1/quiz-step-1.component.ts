@@ -35,14 +35,15 @@ export class QuizStep1Component {
     }
   }
   
-  private toBase64(file: File): Promise<string> {
+  private toBase64(file: File): Promise<{ base64: string; mimeType: string }> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         // remove data:image/...;base64,
-        const base64String = (reader.result as string).split(',')[1];
-        resolve(base64String);
+        const result = reader.result as string;
+        const base64String = result.split(',')[1];
+        resolve({ base64: base64String, mimeType: file.type });
       };
       reader.onerror = error => reject(error);
     });
@@ -56,9 +57,10 @@ export class QuizStep1Component {
     }
     
     try {
-        const photoBase64 = await this.toBase64(this.photoFile);
+        const { base64: photoBase64, mimeType: photoMimeType } = await this.toBase64(this.photoFile);
         this.stateService.submitQuizStep1({
           photoBase64,
+          photoMimeType,
           height: this.height,
           weight: this.weight,
           age: this.age,
