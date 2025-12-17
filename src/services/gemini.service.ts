@@ -15,7 +15,8 @@ export class GeminiService {
   private userFriendlyErrorMessage = 'Звёзды временно перегружены: слишком много желающих узнать свою судьбу! Пожалуйста, попробуйте через несколько минут.';
 
   constructor() {
-    const apiKey = process.env.API_KEY;
+    // Safely access process.env to avoid crashing in browser environments
+    const apiKey = (typeof process !== 'undefined' && process.env) ? process.env.API_KEY : undefined;
     if (!apiKey) {
       console.error("API_KEY environment variable not set. Gemini API calls will use fallback data.");
     } else {
