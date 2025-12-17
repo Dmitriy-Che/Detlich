@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <title>Детейлинг личности</title>
-  <base href="/Detlich/" />
+  <base href="./" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/png" href="./logo_detlich.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,8 +33,8 @@
               '50%': { opacity: 1, transform: 'scale(1.2)' },
             },
             glow: {
-              '0%, 100%': { boxShadow: '0 0 10px rgba(212, 175, 55, 0.5), 0 0 20px rgba(248, 232, 238, 0.3)' },
-              '50%': { boxShadow: '0 0 20px rgba(212, 175, 55, 0.7), 0 0 40px rgba(248, 232, 238, 0.5)' },
+              '0%, 100%': { boxShadow: '0 0 10px #D4AF37, 0 0 20px #F8E8EE' },
+              '50%': { boxShadow: '0 0 20px #D4AF37, 0 0 40px #F8E8EE' },
             },
             'fade-in': {
               '0%': { opacity: '0' },
@@ -43,39 +43,13 @@
             'fade-in-up': {
               '0%': { opacity: '0', transform: 'translateY(10px)' },
               '100%': { opacity: '1', transform: 'translateY(0)' },
-            },
-            'aurora-bg': {
-              '0%': { backgroundPosition: '0% 50%' },
-              '50%': { backgroundPosition: '100% 50%' },
-              '100%': { backgroundPosition: '0% 50%' },
-            },
-            'text-shimmer': {
-              '0%': { backgroundPosition: '-200% 0' },
-              '100%': { backgroundPosition: '200% 0' },
-            },
-            'fade-in-screen': {
-              '0%': { opacity: '0', transform: 'translateY(5px)' },
-              '100%': { opacity: '1', transform: 'translateY(0)' },
-            },
-            'float': {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-20px)' },
-            },
-            'float-reverse': {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(20px)' },
             }
           },
           animation: {
-            sparkle: 'sparkle 3s ease-in-out infinite',
+            sparkle: 'sparkle 2s ease-in-out infinite',
             glow: 'glow 3s ease-in-out infinite',
             'fade-in': 'fade-in 0.3s ease-out',
-            'fade-in-up': 'fade-in-up 0.3s ease-out',
-            'aurora-bg': 'aurora-bg 15s ease infinite',
-            'text-shimmer': 'text-shimmer 4s linear infinite',
-            'fade-in-screen': 'fade-in-screen 0.5s ease-out',
-            'float': 'float 10s ease-in-out infinite',
-            'float-reverse': 'float-reverse 12s ease-in-out infinite',
+            'fade-in-up': 'fade-in-up 0.2s ease-out'
           }
         }
       }
@@ -84,49 +58,8 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     body {
-      background-color: #F5F0E6; /* fallback */
+      background-color: #F5F0E6; /* beige */
       font-family: 'Montserrat', 'sans-serif';
-    }
-    .aurora-background {
-      background: linear-gradient(125deg, #a8b2e5, #e6e6fa, #f8e8ee, #d4f0f5, #a8b2e5);
-      background-size: 400% 400%;
-      animation: aurora-bg 15s ease infinite;
-    }
-    .text-shimmer {
-      background: linear-gradient(90deg, #3C304A, #D4AF37, #3C304A);
-      background-size: 200% auto;
-      color: transparent;
-      background-clip: text;
-      -webkit-background-clip: text;
-      animation: text-shimmer 5s linear infinite;
-    }
-    .glass-card {
-      background: rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 8px 32px 0 rgba(60, 48, 74, 0.15);
-    }
-    .glass-button {
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 4px 15px 0 rgba(60, 48, 74, 0.05);
-    }
-    .glass-input {
-      background: rgba(255, 255, 255, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    .glass-input:focus {
-      border-color: rgba(255, 255, 255, 0.5);
-      background: rgba(255, 255, 255, 0.35);
-    }
-    .particle {
-      position: absolute;
-      pointer-events: none;
-      opacity: 0;
-      animation: float 15s ease-in-out infinite, fade-in 1s ease-out forwards;
     }
   </style>
 <script type="importmap">
@@ -138,18 +71,19 @@
     "rxjs/webSocket": "https://esm.sh/rxjs@^7.8.2/webSocket?conditions=es2015",
     "rxjs/testing": "https://esm.sh/rxjs@^7.8.2/testing?conditions=es2015",
     "rxjs/fetch": "https://esm.sh/rxjs@^7.8.2/fetch?conditions=es2015",
-    "@google/genai": "https://next.esm.sh/@google/genai@^1.33.0?external=rxjs",
-    "@angular/forms": "https://next.esm.sh/@angular/forms@^21.0.5?external=rxjs",
-    "@angular/platform-browser": "https://next.esm.sh/@angular/platform-browser@^21.0.5?external=rxjs",
-    "@angular/common": "https://next.esm.sh/@angular/common@^21.0.5?external=rxjs",
-    "@angular/common/http": "https://next.esm.sh/@angular/common@^21.0.5/http?external=rxjs",
-    "@angular/compiler": "https://next.esm.sh/@angular/compiler@^21.0.5?external=rxjs",
-    "@angular/core": "https://next.esm.sh/@angular/core@^21.0.5?external=rxjs"
+    "@google/genai": "https://esm.sh/@google/genai@^1.33.0?external=rxjs",
+    "@angular/forms": "https://esm.sh/@angular/forms@^18.0.0?external=rxjs",
+    "@angular/platform-browser": "https://esm.sh/@angular/platform-browser@^18.0.0?external=rxjs",
+    "@angular/common": "https://esm.sh/@angular/common@^18.0.0?external=rxjs",
+    "@angular/common/http": "https://esm.sh/@angular/common@^18.0.0/http?external=rxjs",
+    "@angular/compiler": "https://esm.sh/@angular/compiler@^18.0.0?external=rxjs",
+    "@angular/core": "https://esm.sh/@angular/core@^18.0.0?external=rxjs"
   }
 }
 </script>
 </head>
-<body class="antialiased text-dark-purple aurora-background">
+<body class="antialiased text-dark-purple">
   <app-root></app-root>
+  <script type="module" src="index.tsx"></script>
 </body>
 </html>

@@ -1,26 +1,12 @@
+
 <div class="flex flex-col items-center justify-center text-center p-6 w-full">
-   <div class="relative w-48 h-48 flex items-center justify-center">
-    <!-- Static Crystal outline -->
-    <img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/crystal-outline.svg" class="absolute w-full h-full opacity-20" alt=""/>
-    
-    <!-- Pulsing Glows -->
-    <div class="absolute w-full h-full bg-gold-accent/20 rounded-full animate-ping opacity-50" style="animation-duration: 2s;"></div>
-    <div class="absolute w-3/4 h-3/4 bg-lavender/30 rounded-full animate-ping opacity-60" style="animation-duration: 2s; animation-delay: 0.5s;"></div>
-
-    <!-- Filling Crystal -->
-    <div class="relative w-36 h-36 flex items-center justify-center">
-      <div class="absolute bottom-0 w-full bg-gradient-to-t from-gold-accent/80 to-gold-accent/40 transition-all duration-300 ease-linear"
-           [style.height.%]="progress()"
-           style="clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);">
-      </div>
-      <img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/crystal-outline.svg" class="relative w-full h-full opacity-80" alt=""/>
-    </div>
-
-    <span class="absolute text-2xl font-sans font-bold text-dark-purple">
+  <div class="w-full bg-white/50 rounded-full h-6 mb-4 shadow-inner border border-lavender/50 relative">
+    <div class="bg-gradient-to-r from-powder-pink via-lavender to-gold-accent h-6 rounded-full transition-all duration-300 ease-linear" [style.width.%]="progress()"></div>
+     <span class="absolute inset-0 flex items-center justify-center text-xs font-bold text-dark-purple">
       {{ flooredProgress() }}%
     </span>
   </div>
-  <h2 class="font-serif text-3xl font-bold mt-8">
+  <h2 class="font-serif text-3xl font-bold mt-4">
     Читаю по звёздам...
   </h2>
   <p class="font-sans text-md text-dark-purple/80 mt-2 min-h-[2em]">

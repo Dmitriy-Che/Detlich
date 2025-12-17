@@ -1,4 +1,5 @@
-<div class="w-full max-w-md mx-auto p-8 glass-card rounded-3xl text-center">
+
+<div class="w-full max-w-md mx-auto p-8 bg-white/80 rounded-3xl shadow-lg backdrop-blur-sm text-center">
   <h2 class="font-serif text-3xl font-bold mb-4">Хочешь узнать, что ждёт тебя в ближайшие 30 дней?</h2>
   <p class="font-sans text-lg mb-6 text-dark-purple/80">Звёзды уже знают 😉</p>
   
@@ -10,7 +11,7 @@
       name="birthDate" 
       [(ngModel)]="birthDate"
       required 
-      class="mt-2 block w-full glass-input rounded-lg p-3 text-center transition"
+      class="mt-2 block w-full bg-beige/50 border border-lavender rounded-lg p-3 text-center focus:ring-gold-accent focus:border-gold-accent transition"
       max="2010-01-01"
     >
   </div>
@@ -19,7 +20,7 @@
     <p class="text-sm text-red-600 mb-4">{{ errorMessage() }}</p>
   }
   
-  <button (click)="getHoroscope()" class="w-full bg-gradient-to-br from-gold-accent/90 to-gold-accent/60 text-dark-purple font-bold py-3 px-4 rounded-xl transition-all transform hover:opacity-90 hover:scale-105 shadow-lg border border-white/50">
+  <button (click)="getHoroscope()" class="w-full bg-gold-accent text-white font-bold py-3 px-4 rounded-xl hover:opacity-90 transition-opacity transform hover:scale-105 shadow-lg">
     Получить предсказание
   </button>
 </div>

@@ -6,8 +6,23 @@ import { StateService } from '../../services/state.service';
 
 @Component({
   selector: 'app-loading-analysis',
+  standalone: true,
   imports: [CommonModule],
-  templateUrl: './loading-analysis.component.html',
+  template: `
+<div class="flex flex-col items-center justify-center text-center p-6 w-full">
+  <div class="w-full bg-white/50 rounded-full h-6 mb-4 shadow-inner border border-lavender/50 relative">
+    <div class="bg-gradient-to-r from-powder-pink via-lavender to-gold-accent h-6 rounded-full transition-all duration-300 ease-linear" [style.width.%]="progress()"></div>
+    <span class="absolute inset-0 flex items-center justify-center text-xs font-bold text-dark-purple">
+      {{ flooredProgress() }}%
+    </span>
+  </div>
+  <h2 class="font-serif text-3xl font-bold mt-4">
+    Анализ...
+  </h2>
+  <p class="font-sans text-md text-dark-purple/80 mt-2 min-h-[2em]">
+    {{ progressText() }}
+  </p>
+</div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoadingAnalysisComponent implements OnInit, OnDestroy {

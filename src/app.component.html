@@ -1,17 +1,10 @@
-<main class="min-h-screen w-full flex flex-col items-center p-4 text-dark-purple overflow-hidden relative">
-  <!-- Decorative Background Elements -->
-  <img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/leaf-particle.svg" alt="" class="absolute top-0 right-0 w-64 h-64 opacity-20 -z-10 transform translate-x-1/4 -translate-y-1/4 rotate-12 pointer-events-none">
-  <img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/leaf-particle.svg" alt="" class="absolute bottom-0 left-0 w-72 h-72 opacity-15 -z-10 transform -translate-x-1/4 translate-y-1/4 -rotate-45 pointer-events-none">
 
-  <!-- Animated background particles -->
-  <div class="absolute inset-0 overflow-hidden -z-10">
-    <img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/sparkle-particle.svg" alt="" class="particle w-8 opacity-50" style="top: 20%; left: 80%; animation: float-reverse 12s infinite; animation-delay: 1s;">
-    <img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/sparkle-particle.svg" alt="" class="particle w-6 opacity-60" style="top: 80%; left: 15%; animation: float-reverse 10s infinite; animation-delay: 3s;">
-    <img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/sparkle-particle.svg" alt="" class="particle w-10 opacity-40" style="top: 50%; left: 50%; animation-duration: 14s; animation-delay: 4s;">
-  </div>
 
+<main class="min-h-screen w-full flex flex-col items-center p-4 bg-beige text-dark-purple overflow-hidden relative">
+  <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-powder-pink/30 via-lavender/30 to-mint/30 opacity-50 -z-10"></div>
+  
   <!-- This container will grow to push the footer down, and center the content vertically -->
-  <div class="w-full max-w-md mx-auto flex-grow flex flex-col justify-center animate-fade-in-screen">
+  <div class="w-full max-w-md mx-auto flex-grow flex flex-col justify-center">
     @switch (currentScreen()) {
       @case ('landing') {
         <app-landing></app-landing>
@@ -44,14 +37,14 @@
   <div class="w-full max-w-md mx-auto text-center pt-4 flex-shrink-0">
     <div class="flex justify-center items-center space-x-4 mb-4">
        @if (currentScreen() !== 'landing' && currentScreen() !== 'quiz-step-1') {
-         <button (click)="goBack()" class="p-3 glass-button rounded-full transition-transform transform hover:scale-110">
+         <button (click)="goBack()" class="p-3 bg-white/70 rounded-full shadow-md hover:bg-white transition-colors backdrop-blur-sm">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-dark-purple/80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
       }
       @if (currentScreen() !== 'landing') {
-        <button (click)="goToHome()" class="p-3 glass-button rounded-full transition-transform transform hover:scale-110">
+        <button (click)="goToHome()" class="p-3 bg-white/70 rounded-full shadow-md hover:bg-white transition-colors backdrop-blur-sm">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-dark-purple/80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
@@ -63,7 +56,7 @@
       </a>
     </div>
     <footer class="text-xs text-dark-purple/60">
-      Детейлинг личности © 2025 • Telegram-канал @fehu369
+      Детейлинг личности © 2025 • Telegram-канал &#64;fehu369
     </footer>
   </div>
 </main>

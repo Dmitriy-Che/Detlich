@@ -11,17 +11,41 @@ declare var process: any;
   providedIn: 'root'
 })
 export class GeminiService {
-  private ai: GoogleGenAI;
+  private ai: GoogleGenAI | null = null;
   private userFriendlyErrorMessage = 'Звёзды временно перегружены: слишком много желающих узнать свою судьбу! Пожалуйста, попробуйте через несколько минут.';
 
   constructor() {
-    if (!process.env.API_KEY) {
-      console.error("API_KEY environment variable not set. Gemini API calls will fail.");
+    const apiKey = process.env.API_KEY;
+    if (!apiKey) {
+      console.error("API_KEY environment variable not set. Gemini API calls will use fallback data.");
+    } else {
+        try {
+            this.ai = new GoogleGenAI({ apiKey: apiKey });
+        } catch (e) {
+            console.error("Failed to initialize GoogleGenAI, likely due to an invalid API key format.", e);
+            this.ai = null;
+        }
     }
-    this.ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  }
+
+  private getFallbackAnalysis(): AnalysisResult {
+      return {
+        archetype: 'Загадочная Душа',
+        description: this.userFriendlyErrorMessage,
+        recommendations: ['Доверяйте своей интуиции.', 'Носите цвета, которые радуют вашу душу.'],
+        previewImages: ['https://picsum.photos/300/400?random=1', 'https://picsum.photos/300/400?random=2'],
+        crystalTeaser: [{ name: 'Лунный камень', shortDescription: 'интуиция и спокойствие' }],
+        celebrityTeaser: [{ name: 'загадочная звезда', shortDescription: 'утонченная энергия' }],
+        interiorTeaser: {
+            description: 'Создайте пространство, наполненное светом и натуральными материалами, чтобы отразить вашу внутреннюю гармонию.',
+            previewImages: ['https://picsum.photos/300/300?random=3', 'https://picsum.photos/300/300?random=4']
+        }
+      };
   }
 
   async getPersonalityAnalysis(quizData: QuizData): Promise<AnalysisResult> {
+    if (!this.ai) return this.getFallbackAnalysis();
+    
     const imagePart = {
       inlineData: {
         mimeType: quizData.photoMimeType,
@@ -97,18 +121,7 @@ export class GeminiService {
 
     } catch (error) {
       console.error('Error getting personality analysis:', error);
-      return {
-        archetype: 'Загадочная Душа',
-        description: this.userFriendlyErrorMessage,
-        recommendations: ['Доверяйте своей интуиции.', 'Носите цвета, которые радуют вашу душу.'],
-        previewImages: ['https://picsum.photos/300/400?random=1', 'https://picsum.photos/300/400?random=2'],
-        crystalTeaser: [{ name: 'Лунный камень', shortDescription: 'интуиция и спокойствие' }],
-        celebrityTeaser: [{ name: 'загадочная звезда', shortDescription: 'утонченная энергия' }],
-        interiorTeaser: {
-            description: 'Создайте пространство, наполненное светом и натуральными материалами, чтобы отразить вашу внутреннюю гармонию.',
-            previewImages: ['https://picsum.photos/300/300?random=3', 'https://picsum.photos/300/300?random=4']
-        }
-      };
+      return this.getFallbackAnalysis();
     }
   }
   
@@ -131,6 +144,13 @@ export class GeminiService {
   }
 
   async getPremiumContent(quizData: QuizData, birthDate: string, archetype: string): Promise<Omit<PaidContent, 'fullReport' | 'paidPortrait'>> {
+      if (!this.ai) {
+        return {
+            crystals: await this.getPremiumCrystals(archetype, ''),
+            celebrities: await this.getPremiumCelebrities(quizData, archetype),
+            interiorDesign: await this.getPremiumInterior(archetype, '', quizData.gender)
+        };
+      }
       const zodiacSign = this.getZodiacSign(birthDate);
 
       const crystalsPromise = this.getPremiumCrystals(archetype, zodiacSign);
@@ -143,6 +163,11 @@ export class GeminiService {
   }
 
   private async getPremiumCrystals(archetype: string, zodiacSign: string): Promise<CrystalInfo[]> {
+    if (!this.ai) {
+         return [
+            { name: 'Розовый кварц', description: this.userFriendlyErrorMessage, usage: 'Держите в руках во время медитации.', photoUrl: 'https://picsum.photos/seed/rose_quartz/400/400' }
+        ];
+    }
     const prompt = `
       Порекомендуй 4-5 целебных кристаллов для личности с типажом "${archetype}" и знаком зодиака "${zodiacSign}".
       Для каждого кристалла предоставь: 'name', 'description' (свойства и польза в позитивном, вдохновляющем тоне), 
@@ -180,6 +205,11 @@ export class GeminiService {
   }
 
   private async getPremiumCelebrities(quizData: QuizData, archetype: string): Promise<CelebrityMatch[]> {
+    if (!this.ai) {
+        return [
+            { name: 'Моника Беллуччи', similarity: 85, reason: this.userFriendlyErrorMessage, photoUrl: 'https://picsum.photos/seed/monica_bellucci/400/400' }
+        ];
+    }
     const imagePart = {
       inlineData: {
         mimeType: quizData.photoMimeType,
@@ -226,6 +256,19 @@ export class GeminiService {
   }
   
   private async getPremiumInterior(archetype: string, zodiacSign: string, gender: string): Promise<InteriorDesign> {
+    if (!this.ai) {
+         return {
+            recommendations: [
+                this.userFriendlyErrorMessage,
+                'Используйте натуральные материалы, такие как дерево и лен, для создания уютной атмосферы.',
+                'Добавьте акценты вашего любимого цвета, чтобы пространство отражало вашу индивидуальность.'
+            ],
+            exampleImages: [
+                'https://picsum.photos/seed/error_livingroom/600/400',
+                'https://picsum.photos/seed/error_bedroom/600/400'
+            ]
+        };
+    }
     const genderContext = gender === 'male' ? 'с более строгими, маскулинными акцентами' : 'с более мягкими, женственными акцентами';
     const prompt = `
       Создай подробные рекомендации по дизайну гармоничного домашнего интерьера для личности с типажом "${archetype}", знаком зодиака "${zodiacSign}", ${genderContext}.
@@ -257,9 +300,12 @@ export class GeminiService {
             `https://picsum.photos/seed/${archetypeSlug}_kitchen/600/400`,
             `https://picsum.photos/seed/${archetypeSlug}_details/600/400`
         ];
-        return { recommendations: parsedResponse.recommendations, exampleImages };
+        return {
+            recommendations: parsedResponse.recommendations,
+            exampleImages
+        };
     } catch (error) {
-        console.error('Error getting premium interior design:', error);
+        console.error('Error getting premium interior:', error);
         return {
             recommendations: [
                 this.userFriendlyErrorMessage,
@@ -274,26 +320,35 @@ export class GeminiService {
     }
   }
 
-
   async generateOutfitImage(archetype: string, gender: string, quality: 'low' | 'high'): Promise<string> {
-    // Create a unique seed for the placeholder image based on the inputs.
-    // This replaces the Gemini Image Generation API call to avoid quota errors.
-    const seed = `${archetype}_${gender}_${quality}`.replace(/[^a-zA-Z0-9]/g, '_');
-    return Promise.resolve(`https://picsum.photos/seed/${seed}/300/400`);
+    // This is a placeholder for image generation.
+    const qualitySlug = quality === 'high' ? 'high-fashion' : 'street-style';
+    const genderSlug = gender === 'male' ? 'male' : 'female';
+    const archetypeSlug = archetype.replace(/\s+/g, '-').toLowerCase();
+    
+    // Using picsum seeds for deterministic "generation"
+    return `https://picsum.photos/seed/${archetypeSlug}-${genderSlug}-${qualitySlug}/600/800`;
   }
 
   async getHoroscope(birthDate: string): Promise<HoroscopeResult> {
+    if (!this.ai) {
+        return {
+            love: this.userFriendlyErrorMessage,
+            career: 'В карьере ожидаются новые возможности, будьте открыты к ним.',
+            health: 'Обратите внимание на свой энергетический баланс, отдыхайте больше.'
+        };
+    }
+    const zodiacSign = this.getZodiacSign(birthDate);
+
     const prompt = `
-    Составь персональный, вдохновляющий и добрый гороскоп на ближайшие 30 дней для человека с датой рождения ${birthDate}.
-    Гороскоп должен быть сфокусирован на саморазвитии и позитивных возможностях.
-    Ответь в формате JSON, используя предоставленную схему.
-    Каждое предсказание должно быть 2-3 предложения.
-    - love: Прогноз в сфере любви.
-    - career: Прогноз в сфере карьеры.
-    - health: Прогноз в сфере здоровья.
+      Напиши краткий, позитивный и вдохновляющий гороскоп на ближайшие 30 дней для знака зодиака ${zodiacSign}.
+      Предоставь предсказания для трёх сфер: 'love', 'career', 'health'.
+      Каждое предсказание должно быть 1-3 предложения.
+      Ответь в формате JSON.
     `;
+
     try {
-        const response = await this.ai.models.generateContent({
+        const response: GenerateContentResponse = await this.ai.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: prompt,
             config: {
@@ -309,13 +364,13 @@ export class GeminiService {
             }
         });
         return JSON.parse(response.text);
-    } catch(error) {
+    } catch (error) {
         console.error('Error getting horoscope:', error);
         return {
             love: this.userFriendlyErrorMessage,
-            career: 'Ваша креативная энергия на пике! Не бойтесь предлагать смелые идеи.',
-            health: 'Прислушайтесь к своему телу. Медитации и прогулки принесут гармонию.'
-        }
+            career: 'В карьере ожидаются новые возможности, будьте открыты к ним.',
+            health: 'Обратите внимание на свой энергетический баланс, отдыхайте больше.'
+        };
     }
   }
 }

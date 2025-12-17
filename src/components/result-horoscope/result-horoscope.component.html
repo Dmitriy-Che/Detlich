@@ -1,34 +1,26 @@
-<div class="w-full max-w-md mx-auto p-6 glass-card rounded-3xl">
+
+<div class="w-full max-w-md mx-auto p-6 bg-white/80 rounded-3xl shadow-lg backdrop-blur-sm animate-glow">
   @if (horoscope(); as h) {
     <div class="text-center mb-6">
       <h1 class="font-serif text-3xl font-bold text-dark-purple">Твой прогноз на 30 дней</h1>
     </div>
     
     <div class="space-y-6">
-      <div class="p-4 bg-white/30 rounded-xl">
-        <h3 class="font-serif text-2xl font-semibold mb-2 text-dark-purple/90 flex items-center gap-2">
-          <img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/heart-icon.svg" class="h-6 w-6" alt=""/>
-          Любовь и Отношения
-        </h3>
+      <div class="p-4 bg-powder-pink/50 rounded-xl">
+        <h3 class="font-serif text-2xl font-semibold mb-2 text-dark-purple/90">💖 Любовь и Отношения</h3>
         <p class="font-sans text-dark-purple/80">{{ h.love }}</p>
       </div>
-      <div class="p-4 bg-white/30 rounded-xl">
-        <h3 class="font-serif text-2xl font-semibold mb-2 text-dark-purple/90 flex items-center gap-2">
-          <img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/star-icon.svg" class="h-6 w-6" alt=""/>
-          Карьера и Реализация
-        </h3>
+      <div class="p-4 bg-mint/50 rounded-xl">
+        <h3 class="font-serif text-2xl font-semibold mb-2 text-dark-purple/90">🚀 Карьера и Реализация</h3>
         <p class="font-sans text-dark-purple/80">{{ h.career }}</p>
       </div>
-      <div class="p-4 bg-white/30 rounded-xl">
-        <h3 class="font-serif text-2xl font-semibold mb-2 text-dark-purple/90 flex items-center gap-2">
-         <img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/leaf-icon.svg" class="h-6 w-6" alt=""/>
-          Здоровье и Энергия
-        </h3>
+      <div class="p-4 bg-lavender/50 rounded-xl">
+        <h3 class="font-serif text-2xl font-semibold mb-2 text-dark-purple/90">🌿 Здоровье и Энергия</h3>
         <p class="font-sans text-dark-purple/80">{{ h.health }}</p>
       </div>
     </div>
     
-    <button (click)="goToNextStep()" class="mt-8 w-full bg-gradient-to-br from-gold-accent/90 to-gold-accent/60 text-dark-purple font-bold py-3 px-4 rounded-xl transition-all transform hover:opacity-90 hover:scale-105 shadow-lg border border-white/50">
+    <button (click)="goToNextStep()" class="mt-8 w-full bg-gold-accent text-white font-bold py-3 px-4 rounded-xl hover:opacity-90 transition-opacity transform hover:scale-105 shadow-lg">
       Раскрыть весь потенциал
     </button>
 

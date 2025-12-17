@@ -1,32 +1,32 @@
-<div class="w-full max-w-md mx-auto p-6 glass-card rounded-3xl">
+<div class="w-full max-w-md mx-auto p-6 bg-white/80 rounded-3xl shadow-lg backdrop-blur-sm animate-glow">
   
   @if (paymentStatus() === 'success') {
-    <div class="text-center relative">
-      <!-- Sparkle decorations for success -->
-      <img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/sparkle-particle.svg" class="absolute -top-2 -left-2 w-10 h-10 animate-sparkle text-gold-accent" alt=""/>
-      <img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/sparkle-particle.svg" class="absolute -bottom-4 -right-2 w-12 h-12 animate-sparkle text-gold-accent" style="animation-delay: 0.5s" alt=""/>
-
-      <h2 class="font-serif text-3xl font-bold text-green-600 mb-4">Магия свершилась!</h2>
-      <p class="font-sans mb-6">Ваш полный отчёт доступен ниже. Мы также отправили копию вам на почту {{ stateService.userEmail() }}.</p>
+    <div class="text-center">
+      <h2 class="font-serif text-3xl font-bold text-green-600 mb-4">Оплата прошла успешно!</h2>
+      <p class="font-sans mb-6">Ваш полный отчёт и портрет доступны ниже. Мы также отправили копию вам на почту {{ stateService.userEmail() }}.</p>
       
       @if(isLoadingPaidContent()) {
         <div class="flex justify-center items-center p-8">
             <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-gold-accent"></div>
         </div>
       } @else {
-        <div class="text-left bg-white/30 p-4 rounded-xl space-y-6">
+        <div class="text-left bg-beige/50 p-4 rounded-xl space-y-6">
+          <div>
+            <h3 class="font-serif text-2xl font-semibold">Полный детейлинг личности</h3>
+            <p class="font-sans mt-2">{{ paidContent().fullReport }}</p>
+          </div>
           
           @if(paidContent().paidPortrait; as portrait) {
-            <div class="p-4 bg-white/40 rounded-lg">
-              <h3 class="font-serif text-2xl font-semibold flex items-center gap-2 mb-2"><img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/image-icon.svg" class="h-6 w-6" alt=""/>Ваш персональный образ</h3>
+            <div>
+              <h3 class="font-serif text-2xl font-semibold">Ваш персональный образ в стиле</h3>
               <img [src]="portrait" (click)="showImage(portrait)" alt="Персональный образ в стиле" class="rounded-lg shadow-md w-full h-auto object-cover aspect-[3/4] mt-2 cursor-pointer hover:opacity-90 transition-opacity">
             </div>
           }
 
           <!-- Full Crystals Section -->
           @if(paidContent().crystals) {
-            <div class="p-4 bg-white/40 rounded-lg">
-              <h3 class="font-serif text-2xl font-semibold flex items-center gap-2 mb-2"><img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/crystal-icon.svg" class="h-6 w-6" alt=""/>Твои камни-талисманы</h3>
+            <div>
+              <h3 class="font-serif text-2xl font-semibold">Твои камни-талисманы</h3>
               <div class="space-y-4 mt-2">
                 @for(crystal of paidContent().crystals; track crystal.name) {
                   <div class="flex items-start gap-4 p-3 bg-white/50 rounded-lg">
@@ -43,8 +43,8 @@
           }
            <!-- Full Celebrities Section -->
           @if(paidContent().celebrities) {
-            <div class="p-4 bg-white/40 rounded-lg">
-              <h3 class="font-serif text-2xl font-semibold flex items-center gap-2 mb-2"><img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/star-icon.svg" class="h-6 w-6" alt=""/>Сходство со знаменитостями</h3>
+            <div>
+              <h3 class="font-serif text-2xl font-semibold">Сходство со знаменитостями</h3>
               <div class="space-y-4 mt-2">
                 @for(celebrity of paidContent().celebrities; track celebrity.name) {
                   <div class="p-3 bg-white/50 rounded-lg">
@@ -63,8 +63,8 @@
           }
           <!-- Full Interior Design Section -->
           @if(paidContent().interiorDesign) {
-            <div class="p-4 bg-white/40 rounded-lg">
-              <h3 class="font-serif text-2xl font-semibold flex items-center gap-2 mb-2"><img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/home-icon.svg" class="h-6 w-6" alt=""/>Гармония твоего дома</h3>
+            <div>
+              <h3 class="font-serif text-2xl font-semibold">Гармония твоего дома</h3>
               <div class="space-y-2 mt-2">
                 @for(recommendation of paidContent().interiorDesign.recommendations; track recommendation) {
                     <div class="p-3 bg-white/50 rounded-lg">
@@ -94,18 +94,18 @@
     </div>
 
     <div class="space-y-4">
-      <div class="p-6 glass-card rounded-2xl transform hover:scale-105 transition-transform">
-        <h3 class="font-serif text-2xl font-semibold flex items-center gap-2"><img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/star-icon.svg" class="h-6 w-6" alt=""/>Полный детейлинг</h3>
-        <p class="font-sans text-sm text-dark-purple/70 mt-1 mb-3">Полный анализ, талисманы, знаменитости, эксклюзивные образы и обновления.</p>
-        <button (click)="openPaymentModal('subscription')" class="w-full bg-gradient-to-br from-gold-accent/90 to-gold-accent/60 text-dark-purple font-bold py-2 px-4 rounded-xl transition-all transform hover:opacity-90 hover:scale-105 shadow-lg border border-white/50">
+      <div class="p-6 bg-powder-pink/60 rounded-2xl border border-gold-accent/50 shadow-sm">
+        <h3 class="font-serif text-2xl font-semibold">Полный детейлинг личности</h3>
+        <p class="font-sans text-sm text-dark-purple/70 mt-1 mb-3">Подробный анализ, камни-талисманы, сходство со знаменитостями и эксклюзивные образы.</p>
+        <button (click)="openPaymentModal('subscription')" class="w-full bg-gold-accent text-white font-bold py-2 px-4 rounded-xl hover:opacity-90 transition-opacity">
           Подписка – 499 ₽/мес
         </button>
       </div>
       
-      <div class="p-6 glass-card rounded-2xl transform hover:scale-105 transition-transform">
-         <h3 class="font-serif text-2xl font-semibold flex items-center gap-2"><img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/image-icon.svg" class="h-6 w-6" alt=""/>Персональный образ</h3>
-        <p class="font-sans text-sm text-dark-purple/80 mt-1 mb-3">Уникальный нейро-арт образ, созданный на основе твоего типажа.</p>
-        <button (click)="openPaymentModal('portrait')" class="w-full glass-button text-dark-purple font-bold py-2 px-4 rounded-xl hover:bg-white/60 transition-all">
+      <div class="p-6 bg-mint/60 rounded-2xl border border-gold-accent/50 shadow-sm">
+        <h3 class="font-serif text-2xl font-semibold">Персональный образ в стиле</h3>
+        <p class="font-sans text-sm text-dark-purple/70 mt-1 mb-3">Уникальный нейро-арт образ, созданный на основе твоего типажа и энергии.</p>
+        <button (click)="openPaymentModal('portrait')" class="w-full bg-dark-purple text-white font-bold py-2 px-4 rounded-xl hover:bg-dark-purple/90 transition-opacity">
           Разово – 790 ₽
         </button>
       </div>
@@ -116,14 +116,14 @@
 <!-- Email Collection Modal -->
 @if (showEmailModal()) {
   <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" (click)="closeModal()">
-    <div class="glass-card rounded-3xl p-8 shadow-2xl w-full max-w-sm" (click)="$event.stopPropagation()">
+    <div class="bg-beige rounded-3xl p-8 shadow-2xl w-full max-w-sm" (click)="$event.stopPropagation()">
       <h3 class="font-serif text-2xl font-bold text-center mb-2">Почти готово!</h3>
       <p class="text-center font-sans text-dark-purple/80 mb-6">Для получения чека, полного отчёта и эксклюзивных рекомендаций укажите ваш email. Полезный контент без спама ✨</p>
       
       <div class="space-y-4">
         <div>
           <label for="email" class="font-sans text-sm font-medium">Ваш Email</label>
-          <input type="email" id="email" name="email" [(ngModel)]="email" required placeholder="example@mail.com" class="mt-1 block w-full glass-input rounded-lg p-2 transition">
+          <input type="email" id="email" name="email" [(ngModel)]="email" required placeholder="example@mail.com" class="mt-1 block w-full bg-white border border-lavender rounded-lg p-2 focus:ring-gold-accent focus:border-gold-accent transition">
         </div>
         
         <div class="flex items-start">
@@ -138,7 +138,7 @@
         <p class="text-sm text-red-600 text-center mt-4">{{ emailError() }}</p>
       }
       
-      <button (click)="proceedToPayment()" class="mt-6 w-full bg-gradient-to-br from-gold-accent/90 to-gold-accent/60 text-dark-purple font-bold py-3 px-4 rounded-xl transition-all transform hover:opacity-90 hover:scale-105 shadow-lg border border-white/50">
+      <button (click)="proceedToPayment()" class="mt-6 w-full bg-gold-accent text-white font-bold py-3 px-4 rounded-xl hover:opacity-90 transition-opacity">
         Оплатить
       </button>
       
