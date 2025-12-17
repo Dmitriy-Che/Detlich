@@ -1,6 +1,6 @@
+
 import { Injectable } from '@angular/core';
-import { GoogleGenAI, GenerateContentResponse, Type } from '@google/genai';
-import { AnalysisResult, HoroscopeResult, QuizData, PaidContent, CrystalInfo, CelebrityMatch, InteriorDesign } from './state.service';
+import { GoogleGenAI, Type } from '@google/genai';
 
 // It is crucial that the API key is handled securely and not exposed in client-side code.
 // The `process.env.API_KEY` is a placeholder for an environment variable
@@ -11,8 +11,8 @@ declare var process: any;
   providedIn: 'root'
 })
 export class GeminiService {
-  private ai: GoogleGenAI | null = null;
-  private userFriendlyErrorMessage = 'Звёзды временно перегружены: слишком много желающих узнать свою судьбу! Пожалуйста, попробуйте через несколько минут.';
+  ai = null;
+  userFriendlyErrorMessage = 'Звёзды временно перегружены: слишком много желающих узнать свою судьбу! Пожалуйста, попробуйте через несколько минут.';
 
   constructor() {
     // Safely access process.env to avoid crashing in browser environments
@@ -29,7 +29,7 @@ export class GeminiService {
     }
   }
 
-  private getFallbackAnalysis(): AnalysisResult {
+  getFallbackAnalysis() {
       return {
         archetype: 'Загадочная Душа',
         description: this.userFriendlyErrorMessage,
@@ -44,7 +44,7 @@ export class GeminiService {
       };
   }
 
-  async getPersonalityAnalysis(quizData: QuizData): Promise<AnalysisResult> {
+  async getPersonalityAnalysis(quizData) {
     if (!this.ai) return this.getFallbackAnalysis();
     
     const imagePart = {
@@ -78,7 +78,7 @@ export class GeminiService {
     };
 
     try {
-      const response: GenerateContentResponse = await this.ai.models.generateContent({
+      const response = await this.ai.models.generateContent({
         model: 'gemini-2.5-flash',
         contents: { parts: [imagePart, textPart] },
         config: {
@@ -106,7 +106,7 @@ export class GeminiService {
       
       const archetypeSlug = jsonResponse.archetype.replace(/\s+/g, '_').toLowerCase();
 
-      const result: AnalysisResult = { 
+      const result = { 
         ...jsonResponse, 
         previewImages,
         interiorTeaser: {
@@ -126,7 +126,7 @@ export class GeminiService {
     }
   }
   
-  private getZodiacSign(birthDate: string): string {
+  getZodiacSign(birthDate) {
     const date = new Date(birthDate);
     const day = date.getDate();
     const month = date.getMonth() + 1;
@@ -144,7 +144,7 @@ export class GeminiService {
     return "Козерог";
   }
 
-  async getPremiumContent(quizData: QuizData, birthDate: string, archetype: string): Promise<Omit<PaidContent, 'fullReport' | 'paidPortrait'>> {
+  async getPremiumContent(quizData, birthDate, archetype) {
       if (!this.ai) {
         return {
             crystals: await this.getPremiumCrystals(archetype, ''),
@@ -163,7 +163,7 @@ export class GeminiService {
       return { crystals, celebrities, interiorDesign };
   }
 
-  private async getPremiumCrystals(archetype: string, zodiacSign: string): Promise<CrystalInfo[]> {
+  async getPremiumCrystals(archetype, zodiacSign) {
     if (!this.ai) {
          return [
             { name: 'Розовый кварц', description: this.userFriendlyErrorMessage, usage: 'Держите в руках во время медитации.', photoUrl: 'https://picsum.photos/seed/rose_quartz/400/400' }
@@ -205,7 +205,7 @@ export class GeminiService {
     }
   }
 
-  private async getPremiumCelebrities(quizData: QuizData, archetype: string): Promise<CelebrityMatch[]> {
+  async getPremiumCelebrities(quizData, archetype) {
     if (!this.ai) {
         return [
             { name: 'Моника Беллуччи', similarity: 85, reason: this.userFriendlyErrorMessage, photoUrl: 'https://picsum.photos/seed/monica_bellucci/400/400' }
@@ -256,7 +256,7 @@ export class GeminiService {
     }
   }
   
-  private async getPremiumInterior(archetype: string, zodiacSign: string, gender: string): Promise<InteriorDesign> {
+  async getPremiumInterior(archetype, zodiacSign, gender) {
     if (!this.ai) {
          return {
             recommendations: [
@@ -321,7 +321,7 @@ export class GeminiService {
     }
   }
 
-  async generateOutfitImage(archetype: string, gender: string, quality: 'low' | 'high'): Promise<string> {
+  async generateOutfitImage(archetype, gender, quality) {
     // This is a placeholder for image generation.
     const qualitySlug = quality === 'high' ? 'high-fashion' : 'street-style';
     const genderSlug = gender === 'male' ? 'male' : 'female';
@@ -331,7 +331,7 @@ export class GeminiService {
     return `https://picsum.photos/seed/${archetypeSlug}-${genderSlug}-${qualitySlug}/600/800`;
   }
 
-  async getHoroscope(birthDate: string): Promise<HoroscopeResult> {
+  async getHoroscope(birthDate) {
     if (!this.ai) {
         return {
             love: this.userFriendlyErrorMessage,
@@ -349,7 +349,7 @@ export class GeminiService {
     `;
 
     try {
-        const response: GenerateContentResponse = await this.ai.models.generateContent({
+        const response = await this.ai.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: prompt,
             config: {

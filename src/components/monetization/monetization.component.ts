@@ -2,9 +2,9 @@
 import { Component, ChangeDetectionStrategy, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { StateService, PaidContent } from '../../services/state.service';
-import { GeminiService } from '../../services/gemini.service';
-import { ShareComponent } from '../share/share.component';
+import { StateService } from '../../services/state.service.js';
+import { GeminiService } from '../../services/gemini.service.js';
+import { ShareComponent } from '../share/share.component.js';
 
 declare var YooCheckoutWidget: any;
 
@@ -167,7 +167,8 @@ declare var YooCheckoutWidget: any;
   <div (click)="hideImage()" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
     <img [src]="imageUrl" (click)="$event.stopPropagation()" alt="Пример образа в увеличенном виде" class="max-w-full max-h-full object-contain rounded-xl shadow-2xl" style="max-width: 1000px; max-height: 1000px;">
   </div>
-}`,
+}
+`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MonetizationComponent implements OnInit {
@@ -175,14 +176,14 @@ export class MonetizationComponent implements OnInit {
   geminiService = inject(GeminiService);
 
   showEmailModal = signal(false);
-  paymentType = signal<'subscription' | 'portrait' | null>(null);
+  paymentType = signal<null | 'subscription' | 'portrait'>(null);
 
   email = signal(this.stateService.userEmail() || '');
   consent = signal(false);
   emailError = signal<string | null>(null);
   
   paymentStatus = signal<'success' | 'cancelled' | null>(null);
-  paidContent = signal<PaidContent>({});
+  paidContent = signal<any>({});
   isLoadingPaidContent = signal(false);
 
   selectedImage = signal<string | null>(null);

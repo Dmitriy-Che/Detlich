@@ -1,8 +1,8 @@
 
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GeminiService } from '../../services/gemini.service';
-import { StateService } from '../../services/state.service';
+import { GeminiService } from '../../services/gemini.service.js';
+import { StateService } from '../../services/state.service.js';
 
 @Component({
   selector: 'app-loading-horoscope',
@@ -22,7 +22,8 @@ import { StateService } from '../../services/state.service';
   <p class="font-sans text-md text-dark-purple/80 mt-2 min-h-[2em]">
     {{ progressText() }}
   </p>
-</div>`,
+</div>
+`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoadingHoroscopeComponent implements OnInit, OnDestroy {
@@ -31,14 +32,14 @@ export class LoadingHoroscopeComponent implements OnInit, OnDestroy {
   progress = signal(0);
   progressText = signal("Составляю натальную карту...");
   flooredProgress = computed(() => Math.floor(this.progress()));
-  private intervalId: any;
+  intervalId: any;
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.startProgressSimulation();
     this.runHoroscopeGeneration();
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
@@ -60,9 +61,9 @@ export class LoadingHoroscopeComponent implements OnInit, OnDestroy {
     this.intervalId = setInterval(() => {
         this.progress.update(p => {
             const newProgress = Math.min(p + increment, targetProgress);
-            const currentMessageKey = Object.keys(messages).reverse().find(key => newProgress >= parseInt(key));
-            if (currentMessageKey) {
-                this.progressText.set(messages[parseInt(currentMessageKey)]);
+            const currentMessageKey = Object.keys(messages).map(Number).reverse().find(key => newProgress >= key);
+            if (currentMessageKey !== undefined) {
+                this.progressText.set(messages[currentMessageKey]);
             }
             return newProgress;
         });

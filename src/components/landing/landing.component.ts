@@ -1,7 +1,7 @@
 
 import { Component, ChangeDetectionStrategy, OnInit, AfterViewInit, inject, NgZone, signal, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { StateService, User } from '../../services/state.service';
+import { StateService } from '../../services/state.service.js';
 
 declare var Telegram: any;
 
@@ -87,20 +87,21 @@ declare var Telegram: any;
       </p>
     </div>
   }
-</div>`,
+</div>
+`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LandingComponent implements OnInit, AfterViewInit {
   @ViewChild('telegramLogin') telegramLogin!: ElementRef;
 
-  private stateService = inject(StateService);
-  private ngZone = inject(NgZone);
+  stateService = inject(StateService);
+  ngZone = inject(NgZone);
   
   isMiniApp = signal(false);
   widgetLoadError = signal(false);
   currentDomain = signal('');
 
-  ngOnInit(): void {
+  ngOnInit() {
     try {
       this.currentDomain.set(window.location.hostname);
       if (typeof Telegram !== 'undefined' && Telegram.WebApp && Telegram.WebApp.initData) {
@@ -110,7 +111,7 @@ export class LandingComponent implements OnInit, AfterViewInit {
         tg.expand();
         
         if (tg.initDataUnsafe?.user) {
-          const user: User = {
+          const user = {
             id: tg.initDataUnsafe.user.id,
             first_name: tg.initDataUnsafe.user.first_name,
             photo_url: tg.initDataUnsafe.user.photo_url,
@@ -133,9 +134,9 @@ export class LandingComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     if (!this.isMiniApp()) {
-      (window as any).onTelegramAuth = (user: User) => {
+      (window as any).onTelegramAuth = (user: any) => {
         this.ngZone.run(() => {
           this.stateService.login(user);
         });
@@ -162,8 +163,8 @@ export class LandingComponent implements OnInit, AfterViewInit {
     }
   }
 
-  demoLogin(): void {
-    const dummyUser: User = {
+  demoLogin() {
+    const dummyUser = {
       id: 123456789,
       first_name: 'Гость',
     };

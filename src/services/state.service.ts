@@ -1,94 +1,17 @@
-import { Injectable, signal, WritableSignal, effect } from '@angular/core';
 
-export type Screen = 'landing' | 'quiz-step-1' | 'loading-analysis' | 'result-basic' | 'horoscope-upsell' | 'loading-horoscope' | 'result-horoscope' | 'monetization';
-
-export interface User {
-  id: number;
-  first_name: string;
-  photo_url?: string;
-}
-
-export interface QuizData {
-  photoBase64: string;
-  photoMimeType: string;
-  height: number;
-  weight: number;
-  age: number;
-  gender: string;
-}
-
-// --- New & Updated Interfaces ---
-
-export interface CrystalTeaser {
-  name: string;
-  shortDescription: string;
-}
-
-export interface CelebrityTeaser {
-  name: string;
-  shortDescription: string;
-}
-
-export interface InteriorTeaser {
-  description: string;
-  previewImages: string[];
-}
-
-export interface AnalysisResult {
-  archetype: string;
-  description: string;
-  recommendations: string[];
-  previewImages: string[];
-  crystalTeaser: CrystalTeaser[];
-  celebrityTeaser: CelebrityTeaser[];
-  interiorTeaser: InteriorTeaser;
-}
-
-export interface HoroscopeResult {
-    love: string;
-    career: string;
-    health: string;
-}
-
-export interface CrystalInfo {
-  name: string;
-  description: string;
-  usage: string;
-  photoUrl: string;
-}
-
-export interface CelebrityMatch {
-  name: string;
-  similarity: number;
-  reason: string;
-  photoUrl: string;
-}
-
-export interface InteriorDesign {
-    recommendations: string[];
-    exampleImages: string[];
-}
-
-export interface PaidContent {
-  fullReport?: string;
-  paidPortrait?: string;
-  crystals?: CrystalInfo[];
-  celebrities?: CelebrityMatch[];
-  interiorDesign?: InteriorDesign;
-}
-
+import { Injectable, signal, effect } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StateService {
-  currentScreen: WritableSignal<Screen> = signal('landing');
-  user: WritableSignal<User | null> = signal(null);
-  quizData: WritableSignal<QuizData | null> = signal(null);
-  analysisResult: WritableSignal<AnalysisResult | null> = signal(null);
-  horoscopeResult: WritableSignal<HoroscopeResult | null> = signal(null);
-  userEmail: WritableSignal<string | null> = signal(null);
-  birthDate: WritableSignal<string | null> = signal(null);
+  currentScreen = signal('landing');
+  user = signal(null);
+  quizData = signal(null);
+  analysisResult = signal(null);
+  horoscopeResult = signal(null);
+  userEmail = signal(null);
+  birthDate = signal(null);
 
   constructor() {
     this.loadStateFromLocalStorage();
@@ -110,7 +33,7 @@ export class StateService {
     });
   }
 
-  private loadStateFromLocalStorage() {
+  loadStateFromLocalStorage() {
     const savedUser = localStorage.getItem('personality-user');
     if (savedUser) {
       this.user.set(JSON.parse(savedUser));
@@ -124,32 +47,32 @@ export class StateService {
     }
   }
 
-  login(userData: User) {
+  login(userData) {
     this.user.set(userData);
     this.navigateTo('quiz-step-1');
   }
 
-  submitQuizStep1(data: QuizData) {
+  submitQuizStep1(data) {
     this.quizData.set(data);
     this.navigateTo('loading-analysis');
   }
 
-  submitBirthDate(date: string) {
+  submitBirthDate(date) {
     this.birthDate.set(date);
     this.navigateTo('loading-horoscope');
   }
 
-  setAnalysisResult(result: AnalysisResult) {
+  setAnalysisResult(result) {
     this.analysisResult.set(result);
     this.navigateTo('result-basic');
   }
 
-  setHoroscopeResult(result: HoroscopeResult) {
+  setHoroscopeResult(result) {
     this.horoscopeResult.set(result);
     this.navigateTo('result-horoscope');
   }
 
-  navigateTo(screen: Screen) {
+  navigateTo(screen) {
     this.currentScreen.set(screen);
   }
 

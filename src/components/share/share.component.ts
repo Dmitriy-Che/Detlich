@@ -47,7 +47,8 @@ import { CommonModule } from '@angular/common';
       </ul>
     </div>
   }
-</div>`,
+</div>
+`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShareComponent {
@@ -57,7 +58,7 @@ export class ShareComponent {
   showOptions = signal(false);
   copied = signal(false);
   
-  private appUrl = window.location.origin;
+  appUrl = window.location.origin;
 
   toggleOptions() {
     this.showOptions.update(value => !value);

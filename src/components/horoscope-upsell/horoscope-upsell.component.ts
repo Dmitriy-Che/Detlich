@@ -2,8 +2,8 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { StateService } from '../../services/state.service';
-import { GeminiService } from '../../services/gemini.service';
+import { StateService } from '../../services/state.service.js';
+import { GeminiService } from '../../services/gemini.service.js';
 
 @Component({
   selector: 'app-horoscope-upsell',
@@ -34,13 +34,14 @@ import { GeminiService } from '../../services/gemini.service';
   <button (click)="getHoroscope()" class="w-full bg-gold-accent text-white font-bold py-3 px-4 rounded-xl hover:opacity-90 transition-opacity transform hover:scale-105 shadow-lg">
     Получить предсказание
   </button>
-</div>`,
+</div>
+`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HoroscopeUpsellComponent {
   stateService = inject(StateService);
 
-  birthDate: string = '';
+  birthDate = '';
   errorMessage = signal<string | null>(null);
 
   getHoroscope() {

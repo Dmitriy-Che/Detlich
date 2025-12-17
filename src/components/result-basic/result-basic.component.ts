@@ -1,8 +1,8 @@
 
 import { Component, ChangeDetectionStrategy, inject, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StateService } from '../../services/state.service';
-import { ShareComponent } from '../share/share.component';
+import { StateService } from '../../services/state.service.js';
+import { ShareComponent } from '../share/share.component.js';
 
 @Component({
   selector: 'app-result-basic',
@@ -101,7 +101,8 @@ import { ShareComponent } from '../share/share.component';
   <div (click)="hideImage()" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
     <img [src]="imageUrl" (click)="$event.stopPropagation()" alt="Пример образа в увеличенном виде" class="max-w-full max-h-full object-contain rounded-xl shadow-2xl" style="max-width: 1000px; max-height: 1000px;">
   </div>
-}`,
+}
+`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResultBasicComponent {

@@ -1,8 +1,8 @@
 
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StateService } from '../../services/state.service';
-import { ShareComponent } from '../share/share.component';
+import { StateService } from '../../services/state.service.js';
+import { ShareComponent } from '../share/share.component.js';
 
 @Component({
   selector: 'app-result-horoscope',
@@ -39,7 +39,8 @@ import { ShareComponent } from '../share/share.component';
   } @else {
      <p class="text-center font-sans">Загружаем твой гороскоп...</p>
   }
-</div>`,
+</div>
+`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResultHoroscopeComponent {

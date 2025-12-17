@@ -2,16 +2,16 @@
 import { Component, ChangeDetectionStrategy, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { StateService, Screen } from './services/state.service';
-import { LandingComponent } from './components/landing/landing.component';
-import { QuizStep1Component } from './components/quiz-step-1/quiz-step-1.component';
-import { LoadingAnalysisComponent } from './components/loading-analysis/loading-analysis.component';
-import { ResultBasicComponent } from './components/result-basic/result-basic.component';
-import { HoroscopeUpsellComponent } from './components/horoscope-upsell/horoscope-upsell.component';
-import { MonetizationComponent } from './components/monetization/monetization.component';
-import { LoadingHoroscopeComponent } from './components/loading-horoscope/loading-horoscope.component';
-import { ResultHoroscopeComponent } from './components/result-horoscope/result-horoscope.component';
-import { ShareComponent } from './components/share/share.component';
+import { StateService } from './services/state.service.js';
+import { LandingComponent } from './components/landing/landing.component.js';
+import { QuizStep1Component } from './components/quiz-step-1/quiz-step-1.component.js';
+import { LoadingAnalysisComponent } from './components/loading-analysis/loading-analysis.component.js';
+import { ResultBasicComponent } from './components/result-basic/result-basic.component.js';
+import { HoroscopeUpsellComponent } from './components/horoscope-upsell/horoscope-upsell.component.js';
+import { MonetizationComponent } from './components/monetization/monetization.component.js';
+import { LoadingHoroscopeComponent } from './components/loading-horoscope/loading-horoscope.component.js';
+import { ResultHoroscopeComponent } from './components/result-horoscope/result-horoscope.component.js';
+import { ShareComponent } from './components/share/share.component.js';
 
 @Component({
   selector: 'app-root',
@@ -76,7 +76,8 @@ import { ShareComponent } from './components/share/share.component';
       Детейлинг личности © 2025 • Telegram-канал &#64;fehu369
     </footer>
   </div>
-</main>`,
+</main>
+`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
@@ -92,7 +93,7 @@ import { ShareComponent } from './components/share/share.component';
   ],
 })
 export class AppComponent {
-  private stateService = inject(StateService);
+  stateService = inject(StateService);
   currentScreen = this.stateService.currentScreen;
 
   constructor() {
@@ -101,11 +102,11 @@ export class AppComponent {
     });
   }
 
-  goToHome(): void {
+  goToHome() {
     this.stateService.resetToHome();
   }
 
-  goBack(): void {
+  goBack() {
     this.stateService.goBack();
   }
 }
