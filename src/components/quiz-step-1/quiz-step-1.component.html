@@ -1,4 +1,4 @@
-<div class="w-full max-w-md mx-auto p-6 bg-white/80 rounded-3xl shadow-lg backdrop-blur-sm">
+<div class="w-full max-w-md mx-auto p-6 glass-card rounded-3xl">
   <div class="text-center mb-6">
     <h2 class="font-serif text-3xl font-bold">Здравствуй, {{ user()?.first_name }}!</h2>
     <p class="font-sans text-md text-dark-purple/80 mt-2">Давай познакомимся поближе. Эта информация поможет звёздам дать точный ответ.</p>
@@ -6,14 +6,14 @@
   
   <form (ngSubmit)="submit()" class="space-y-4">
     <div class="flex flex-col items-center">
-      <label for="selfie-upload" class="cursor-pointer block w-full p-4 border border-lavender rounded-xl text-center hover:bg-powder-pink/50 transition-colors" [class.bg-powder-pink/20]="!photoPreview()">
+      <label for="selfie-upload" class="cursor-pointer block w-full p-4 border border-gold-accent/20 rounded-xl text-center glass-input hover:bg-white/60 transition-colors" [class.bg-white/10]="!photoPreview()">
         @if (photoPreview()) {
-          <img [src]="photoPreview()" alt="Предпросмотр селфи" class="w-32 h-32 object-cover rounded-full mx-auto mb-2 border-4 border-white shadow-md">
+          <img [src]="photoPreview()" alt="Предпросмотр селфи" class="w-32 h-32 object-cover rounded-full mx-auto mb-2 border-4 border-white/80 shadow-md">
           <span class="font-sans text-sm text-dark-purple/70">Нажми, чтобы выбрать другое фото</span>
         } @else {
-          <div class="flex flex-col items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gold-accent mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-            <span class="font-sans font-medium">Загрузи своё селфи</span>
+          <div class="flex flex-col items-center text-gold-accent">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg>
+            <span class="font-sans font-medium text-dark-purple">Загрузи своё селфи</span>
             <span class="font-sans text-xs text-dark-purple/60">Лучше всего подойдёт портрет в анфас</span>
           </div>
         }
@@ -24,22 +24,22 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div>
         <label for="height" class="font-sans text-sm font-medium">Рост (см)</label>
-        <input type="number" id="height" name="height" [(ngModel)]="height" required class="mt-1 block w-full bg-white/50 border border-lavender rounded-lg p-2 focus:ring-gold-accent focus:border-gold-accent transition">
+        <input type="number" id="height" name="height" [(ngModel)]="height" required class="mt-1 block w-full glass-input rounded-lg p-2 transition">
       </div>
       <div>
         <label for="weight" class="font-sans text-sm font-medium">Вес (кг)</label>
-        <input type="number" id="weight" name="weight" [(ngModel)]="weight" required class="mt-1 block w-full bg-white/50 border border-lavender rounded-lg p-2 focus:ring-gold-accent focus:border-gold-accent transition">
+        <input type="number" id="weight" name="weight" [(ngModel)]="weight" required class="mt-1 block w-full glass-input rounded-lg p-2 transition">
       </div>
     </div>
     
     <div>
       <label for="age" class="font-sans text-sm font-medium">Возраст</label>
-      <input type="number" id="age" name="age" [(ngModel)]="age" required class="mt-1 block w-full bg-white/50 border border-lavender rounded-lg p-2 focus:ring-gold-accent focus:border-gold-accent transition">
+      <input type="number" id="age" name="age" [(ngModel)]="age" required class="mt-1 block w-full glass-input rounded-lg p-2 transition">
     </div>
     
     <div>
       <label for="gender" class="font-sans text-sm font-medium">Пол</label>
-      <select id="gender" name="gender" [(ngModel)]="gender" required class="mt-1 block w-full bg-white/50 border border-lavender rounded-lg p-2 focus:ring-gold-accent focus:border-gold-accent transition">
+      <select id="gender" name="gender" [(ngModel)]="gender" required class="mt-1 block w-full glass-input rounded-lg p-2 transition">
         <option value="" disabled selected>Выберите пол</option>
         <option value="female">Женский</option>
         <option value="male">Мужской</option>
@@ -51,7 +51,7 @@
     }
     
     <button type="submit" 
-            class="w-full bg-gold-accent text-white font-bold py-3 px-4 rounded-xl transition-all transform hover:opacity-90 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 flex items-center justify-center space-x-2"
+            class="w-full bg-gradient-to-br from-gold-accent/90 to-gold-accent/60 border border-white/50 text-dark-purple font-bold py-3 px-4 rounded-xl transition-all transform hover:opacity-90 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 flex items-center justify-center space-x-2 shadow-lg"
             [disabled]="!photoFile || !height || !weight || !age || !gender">
       <span>Анализировать</span>
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

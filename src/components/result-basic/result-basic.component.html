@@ -1,4 +1,4 @@
-<div class="w-full max-w-md mx-auto p-6 bg-white/80 rounded-3xl shadow-lg backdrop-blur-sm animate-glow">
+<div class="w-full max-w-md mx-auto p-6 glass-card rounded-3xl">
   @if (result(); as res) {
     <div class="text-center">
       <h2 class="font-serif text-2xl text-dark-purple/80">Твой уникальный типаж:</h2>
@@ -6,25 +6,23 @@
       <p class="font-sans text-md text-dark-purple/90 mb-6">{{ res.description }}</p>
     </div>
     
-    <div class="mb-6 bg-beige/50 p-4 rounded-xl">
+    <div class="mb-6 bg-white/30 p-4 rounded-xl">
       <h3 class="font-serif text-2xl font-semibold mb-3 text-center">Рекомендации по стилю</h3>
       <ul class="space-y-2 list-none font-sans text-dark-purple/80">
         @for (item of res.recommendations; track item) {
           <li class="flex items-start">
-            <svg class="w-5 h-5 text-gold-accent mr-3 mt-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-            </svg>
+            <img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/leaf-icon.svg" class="w-5 h-5 mr-3 mt-1 flex-shrink-0" alt="icon"/>
             <span>{{ item }}</span>
           </li>
         }
       </ul>
     </div>
 
-    <div class="mb-6 bg-beige/50 p-4 rounded-xl">
+    <div class="mb-6 bg-white/30 p-4 rounded-xl">
       <h3 class="font-serif text-2xl font-semibold mb-3 text-center">Примеры образов в твоём стиле</h3>
       <div class="grid grid-cols-2 gap-4">
         @for (img of res.previewImages; track img) {
-          <img [src]="img" (click)="showImage(img)" alt="Пример образа в стиле" class="rounded-xl shadow-md w-full h-auto object-cover aspect-[3/4] cursor-pointer hover:opacity-90 transition-opacity">
+          <img [src]="img" (click)="showImage(img)" alt="Пример образа в стиле" class="rounded-xl shadow-md w-full h-auto object-cover aspect-[3/4] cursor-pointer hover:opacity-90 transition-opacity border-2 border-white/50">
         }
       </div>
     </div>
@@ -34,45 +32,51 @@
         <h3 class="font-serif text-2xl font-semibold text-center">Полный детейлинг ждёт тебя</h3>
         
         <!-- Crystal Teaser -->
-        <div class="p-4 bg-lavender/40 rounded-2xl relative overflow-hidden">
-          <div class="relative z-10">
+        <div class="p-4 bg-white/20 rounded-2xl relative overflow-hidden border border-gold-accent/20">
+            <div class="absolute inset-0 bg-gradient-to-t from-white/50 to-transparent z-10"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-gold-accent">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" /></svg>
+            </div>
+          <div class="relative z-0 blur-md select-none">
             <h4 class="font-serif text-xl font-semibold flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H7a2 2 0 01-2-2V4zm11.293 7.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 12H5.414l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 10h9.172l-3.293-3.293a1 1 0 011.414-1.414l4 4z" /></svg>
+              <img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/crystal-icon.svg" class="h-5 w-5" alt=""/>
               Твои камни-талисманы
             </h4>
-            <div class="mt-2 blur-sm select-none">
+            <div class="mt-2">
               @for(crystal of res.crystalTeaser; track crystal.name) {
                 <p class="font-sans text-sm"><span class="font-bold">{{crystal.name}}</span> — {{crystal.shortDescription}}</p>
               }
             </div>
           </div>
-          <div class="absolute inset-0 bg-gradient-to-t from-lavender/80 to-transparent"></div>
         </div>
 
         <!-- Celebrity Teaser -->
-        <div class="p-4 bg-mint/40 rounded-2xl relative overflow-hidden">
-          <div class="relative z-10">
+        <div class="p-4 bg-white/20 rounded-2xl relative overflow-hidden border border-gold-accent/20">
+           <div class="absolute inset-0 bg-gradient-to-t from-white/50 to-transparent z-10"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-gold-accent">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" /></svg>
+            </div>
+          <div class="relative z-0 blur-md select-none">
               <h4 class="font-serif text-xl font-semibold flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 10a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm14 0a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM10 16a1 1 0 01-1 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM16 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM3 10a1 1 0 01-1 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM10 4a1 1 0 01-1 1v1a1 1 0 11-2 0V5a1 1 0 011-1zM16 4a1 1 0 01-1 1v1a1 1 0 11-2 0V5a1 1 0 011-1zM3 4a1 1 0 01-1 1v1a1 1 0 11-2 0V5a1 1 0 011-1z" clip-rule="evenodd" /></svg>
+                <img src="https://raw.githubusercontent.com/Dmitriy-Che/Detlich/d9e2b17b6a4a159954cb3ac83c6130456184a7a8/star-icon.svg" class="h-5 w-5" alt=""/>
                 Сходство со знаменитостью
               </h4>
-              <div class="mt-2 blur-sm select-none">
+              <div class="mt-2">
                   @for(celebrity of res.celebrityTeaser; track celebrity.name) {
                       <p class="font-sans text-sm">Твоя энергия напоминает <span class="font-bold">{{celebrity.name}}</span></p>
                   }
               </div>
           </div>
-          <div class="absolute inset-0 bg-gradient-to-t from-mint/80 to-transparent"></div>
         </div>
 
-        <button (click)="goToMonetization()" class="w-full bg-dark-purple text-white font-bold py-3 px-4 rounded-xl hover:bg-dark-purple/90 transition-opacity transform hover:scale-105 shadow-lg flex items-center justify-center gap-2">
+        <button (click)="goToMonetization()" class="w-full bg-gradient-to-br from-gold-accent/90 to-gold-accent/60 text-dark-purple font-bold py-3 px-4 rounded-xl transition-all transform hover:opacity-90 hover:scale-105 shadow-lg flex items-center justify-center gap-2 border border-white/50">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" /></svg>
           Разблокировать полный отчёт
         </button>
     </div>
     
-    <div class="mt-6 border-t border-lavender pt-4">
-        <button (click)="goToNextStep()" class="w-full text-dark-purple font-bold py-3 px-4 rounded-xl hover:bg-powder-pink/50 transition-colors">
+    <div class="mt-6 border-t border-gold-accent/20 pt-4">
+        <button (click)="goToNextStep()" class="w-full text-dark-purple font-bold py-3 px-4 rounded-xl hover:bg-white/40 transition-colors">
         Узнать свой гороскоп →
         </button>
     </div>
