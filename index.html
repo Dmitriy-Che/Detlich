@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <title>Детейлинг личности</title>
-  <base href="/Detlich/" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/png" href="./logo_detlich.png" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Детейлинг личности — Разберитесь в себе за 30 дней</title>
+  <link rel="icon" type="image/png" href="./logo_detlich.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://picsum.photos">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -27,63 +25,184 @@
             'serif': ['Cormorant Garamond', 'serif'],
             'sans': ['Montserrat', 'sans-serif'],
           },
-          keyframes: {
-            sparkle: {
-              '0%, 100%': { opacity: 0, transform: 'scale(0.5)' },
-              '50%': { opacity: 1, transform: 'scale(1.2)' },
-            },
-            glow: {
-              '0%, 100%': { boxShadow: '0 0 10px #D4AF37, 0 0 20px #F8E8EE' },
-              '50%': { boxShadow: '0 0 20px #D4AF37, 0 0 40px #F8E8EE' },
-            },
-            'fade-in': {
-              '0%': { opacity: '0' },
-              '100%': { opacity: '1' },
-            },
-            'fade-in-up': {
-              '0%': { opacity: '0', transform: 'translateY(10px)' },
-              '100%': { opacity: '1', transform: 'translateY(0)' },
-            }
-          },
-          animation: {
-            sparkle: 'sparkle 2s ease-in-out infinite',
-            glow: 'glow 3s ease-in-out infinite',
-            'fade-in': 'fade-in 0.3s ease-out',
-            'fade-in-up': 'fade-in-up 0.2s ease-out'
-          }
         }
       }
     }
   </script>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     body {
-      background-color: #F5F0E6; /* beige */
-      font-family: 'Montserrat', 'sans-serif';
+      background-color: #F5F0E6;
+      font-family: 'Montserrat', sans-serif;
+      color: #3C304A;
+    }
+    .serif-title { font-family: 'Cormorant Garamond', serif; }
+    .btn-primary {
+      background: linear-gradient(135deg, #D4AF37 0%, #E8C547 100%);
+      color: #3C304A;
+      padding: 16px 32px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
     }
   </style>
-<script type="importmap">
-{
-  "imports": {
-    "rxjs": "https://esm.sh/rxjs@^7.8.2?conditions=es2015",
-    "rxjs/operators": "https://esm.sh/rxjs@^7.8.2/operators?conditions=es2015",
-    "rxjs/ajax": "https://esm.sh/rxjs@^7.8.2/ajax?conditions=es2015",
-    "rxjs/webSocket": "https://esm.sh/rxjs@^7.8.2/webSocket?conditions=es2015",
-    "rxjs/testing": "https://esm.sh/rxjs@^7.8.2/testing?conditions=es2015",
-    "rxjs/fetch": "https://esm.sh/rxjs@^7.8.2/fetch?conditions=es2015",
-    "@google/genai": "https://esm.sh/@google/genai@^1.33.0?external=rxjs",
-    "@angular/forms": "https://esm.sh/@angular/forms@^18.0.0?external=rxjs",
-    "@angular/platform-browser": "https://esm.sh/@angular/platform-browser@^18.0.0?external=rxjs",
-    "@angular/common": "https://esm.sh/@angular/common@^18.0.0?external=rxjs",
-    "@angular/common/http": "https://esm.sh/@angular/common@^18.0.0/http?external=rxjs",
-    "@angular/compiler": "https://esm.sh/@angular/compiler@^18.0.0?external=rxjs",
-    "@angular/core": "https://esm.sh/@angular/core@^18.0.0?external=rxjs"
-  }
-}
-</script>
 </head>
-<body class="antialiased text-dark-purple">
-  <app-root></app-root>
-  <script type="module" src="index.js"></script>
+<body>
+<header class="bg-white shadow-sm sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <img src="./logo_detlich.png" alt="Detlich" class="h-10 w-10">
+      <span class="serif-title text-2xl font-bold text-dark-purple">Детейлинг личности</span>
+    </div>
+    <a href="#cta" class="btn-primary text-sm">Получить анкету</a>
+  </div>
+</header>
+<section class="bg-beige py-20 px-6">
+  <div class="max-w-4xl mx-auto text-center">
+    <h1 class="serif-title text-5xl md:text-6xl font-bold text-dark-purple mb-6 leading-tight">
+      Разберитесь в себе за 30 дней
+    </h1>
+    <p class="text-xl text-dark-purple opacity-80 mb-8 max-w-2xl mx-auto leading-relaxed">
+      Глубокий анализ вашей жизни через ИИ и духовное понимание. 
+      Отчёт с конкретным планом действий на месяц.
+    </p>
+    <a href="#cta" class="btn-primary text-lg inline-block">Начать разбор →</a>
+    <p class="text-sm text-dark-purple opacity-60 mt-6">Стоимость: <strong>от 4 000 ₽</strong> • Сроки: <strong>5-7 дней</strong></p>
+  </div>
+</section><section class="bg-powder-pink py-20 px-6">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="serif-title text-4xl font-bold text-dark-purple mb-12 text-center">Что такое детейлинг личности</h2>
+    <div class="grid md:grid-cols-3 gap-8 mb-12">
+      <div class="bg-white rounded-lg p-8 shadow-sm">
+        <div class="text-4xl mb-4">📋</div>
+        <h3 class="font-bold text-lg text-dark-purple mb-4">Честный разбор</h3>
+        <p class="text-dark-purple opacity-75">Вы заполняете подробную анкету. Мы анализируем без критики и суда, как в хорошем детейлинге авто.</p>
+      </div>
+      <div class="bg-white rounded-lg p-8 shadow-sm">
+        <div class="text-4xl mb-4">🤖</div>
+        <h3 class="font-bold text-lg text-dark-purple mb-4">ИИ-аналитика</h3>
+        <p class="text-dark-purple opacity-75">Нейросеть видит паттерны, которые упускает сам человек. Мы синтезируем её выводы в понятный вам язык.</p>
+      </div>
+      <div class="bg-white rounded-lg p-8 shadow-sm">
+        <div class="text-4xl mb-4">🛤️</div>
+        <h3 class="font-bold text-lg text-dark-purple mb-4">План на 30 дней</h3>
+        <p class="text-dark-purple opacity-75">Не просто диагноз. Вы получите конкретные точки действия, которые поменяют вашу жизнь.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="bg-beige py-20 px-6">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="serif-title text-4xl font-bold text-dark-purple mb-12 text-center">Кому подходит</h2>
+    <div class="space-y-4 max-w-2xl mx-auto">
+      <div class="flex gap-4 items-start bg-white p-6 rounded-lg">
+        <span class="text-2xl">✓</span>
+        <div>
+          <p class="font-bold text-dark-purple">Ищите ответы на большие вопросы</p>
+          <p class="text-sm text-dark-purple opacity-70">«Что я вообще делаю в жизни? В чём смысл?» — если это про вас</p>
+        </div>
+      </div>
+      <div class="flex gap-4 items-start bg-white p-6 rounded-lg">
+        <span class="text-2xl">✓</span>
+        <div>
+          <p class="font-bold text-dark-purple">Стоите на перепутье</p>
+          <p class="text-sm text-dark-purple opacity-70">Нужна перемена, но непонятно, в какую сторону двигаться</p>
+        </div>
+      </div>
+      <div class="flex gap-4 items-start bg-white p-6 rounded-lg">
+        <span class="text-2xl">✓</span>
+        <div>
+          <p class="font-bold text-dark-purple">Недовольны карьерой или отношениями</p>
+          <p class="text-sm text-dark-purple opacity-70">Разберёмся, что изменить, чтобы снова верить в себя</p>
+        </div>
+      </div>
+      <div class="flex gap-4 items-start bg-white p-6 rounded-lg">
+        <span class="text-2xl">✓</span>
+        <div>
+          <p class="font-bold text-dark-purple">Интересует духовный путь</p>
+          <p class="text-sm text-dark-purple opacity-70">Вы ищите глубину, а не поверхностные советы тренеров</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><section class="bg-powder-pink py-20 px-6">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="serif-title text-4xl font-bold text-dark-purple mb-12 text-center">Что вы получаете</h2>
+    <div class="space-y-6 max-w-2xl mx-auto">
+      <div class="bg-white rounded-lg p-8 border-l-4 border-gold-accent">
+        <h3 class="font-bold text-lg text-dark-purple mb-2">📄 Подробный письменный отчёт (20–30 страниц)</h3>
+        <p class="text-dark-purple opacity-75 text-sm">Анализ вашей жизни: сильные стороны, зоны роста, скрытые убеждения, которые вас торможат</p>
+      </div>
+      <div class="bg-white rounded-lg p-8 border-l-4 border-gold-accent">
+        <h3 class="font-bold text-lg text-dark-purple mb-2">🎧 Аудиоразбор (30–40 минут)</h3>
+        <p class="text-dark-purple opacity-75 text-sm">Отчёт вы слусываете в аудиоформе, от цапка до строительных комментариев</p>
+      </div>
+      <div class="bg-white rounded-lg p-8 border-l-4 border-gold-accent">
+        <h3 class="font-bold text-lg text-dark-purple mb-2">🛤️ План действий на 30 дней</h3>
+        <p class="text-dark-purple opacity-75 text-sm">Конкретные шаги для внутренних и внешних перемен. Не мотивация, а работающий чек-лист</p>
+      </div>
+      <div class="bg-white rounded-lg p-8 border-l-4 border-gold-accent">
+        <h3 class="font-bold text-lg text-dark-purple mb-2">💬 Консультация в Telegram (1 час)</h3>
+        <p class="text-dark-purple opacity-75 text-sm">Задавайте уточняющие вопросы. Я помогу разобраться в тонких местах</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="bg-beige py-20 px-6">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="serif-title text-4xl font-bold text-dark-purple mb-12 text-center">Как это работает</h2>
+    <div class="max-w-2xl mx-auto">
+      <div class="flex gap-6 mb-12">
+        <div class="text-3xl font-bold text-gold-accent min-w-fit">1.</div>
+        <div>
+          <h3 class="font-bold text-lg text-dark-purple mb-2">Зафильтруюте анкету (20–30 минут)</h3>
+          <p class="text-dark-purple opacity-75">Вопросы про вашу жизнь, цели, отношения, страхи, мечты. Чем честнее, тем точнее результат</p>
+        </div>
+      </div>
+      <div class="flex gap-6 mb-12">
+        <div class="text-3xl font-bold text-gold-accent min-w-fit">2.</div>
+        <div>
+          <h3 class="font-bold text-lg text-dark-purple mb-2">Мы анализируем через ИИ + мой опыт (3–5 дней)</h3>
+          <p class="text-dark-purple opacity-75">Обрабатываю данные, добавляю духовный слой, пишу отчёт, записываю аудио</p>
+        </div>
+      </div>
+      <div class="flex gap-6">
+        <div class="text-3xl font-bold text-gold-accent min-w-fit">3.</div>
+        <div>
+          <h3 class="font-bold text-lg text-dark-purple mb-2">Получаете результат и начинаете действовать</h3>
+          <p class="text-dark-purple opacity-75">Отчёт, аудио, план + поддержка в Telegram на месяц. Вы меняетесь. Он помогаю</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><section class="bg-powder-pink py-20 px-6" id="cta">
+  <div class="max-w-4xl mx-auto text-center">
+    <h2 class="serif-title text-4xl font-bold text-dark-purple mb-12">Стоимость</h2>
+    <div class="bg-white rounded-lg p-12 max-w-md mx-auto shadow-sm mb-8">
+      <h3 class="serif-title text-3xl font-bold text-dark-purple mb-4">Полный детейлинг</h3>
+      <div class="text-5xl font-bold text-gold-accent mb-6">4 000 ₽</div>
+      <ul class="text-sm text-dark-purple opacity-75 space-y-3 text-left mb-8">
+        <li>✓ Письменный отчёт (20–30 стр)</li>
+        <li>✓ Аудиоверсия (30–40 мин)</li>
+        <li>✓ План действий</li>
+        <li>✓ Консультация (1 час)</li>
+        <li>✓ Срок: 5–7 дней</li>
+      </ul>
+      <a href="https://t.me/dmitriy_che" class="btn-primary w-full text-center">Написать в Telegram</a>
+    </div>
+    <p class="text-dark-purple opacity-60 text-sm max-w-2xl mx-auto">После вашего сообщения мы отправим детали и анкету. Ответ в течение 1 часа.</p>
+  </div>
+</section>
+<footer class="bg-dark-purple text-white py-12 px-6 text-center">
+  <p class="mb-4">© 2025 Детейлинг личности • Практичный разбор вашей жизни</p>
+  <p><a href="https://t.me/dmitriy_che" class="text-gold-accent hover:underline">Telegram</a> | <a href="https://vk.com/detlich" class="text-gold-accent hover:underline">VK</a></p>
+</footer>
 </body>
 </html>
